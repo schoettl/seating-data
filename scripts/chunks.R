@@ -1,10 +1,10 @@
 source('analysis.R')
 
-## ---- survey-table ----
+## ---- seating-data-survey-table ----
 makeTableWithColumns(surveyData)
 
-## ---- person-table ----
+## ---- seating-data-person-table ----
 makeTableWithColumns(personData)
 
-## ---- logevent-table ----
+## ---- seating-data-logevent-table ----
 makeTableWithColumns(logEventData)
