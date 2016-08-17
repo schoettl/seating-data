@@ -1,13 +1,10 @@
-## ---- init ----
 library(ggplot2)
 library(dplyr)
 library(xtable)
 library(knitr)
 
-dataPath = '../../../seating-data/data'
-
 getCsvFileName = function(baseName) {
-    return(paste0(dataPath, '/', baseName, '.csv'))
+    return(paste0('../data/', baseName, '.csv'))
 }
 
 readCsvFile = function(baseName) {
@@ -31,11 +28,3 @@ makeTableWithColumns = function(dataframe) {
     xtable(columnTable)
 }
 
-## ---- survey-table ----
-makeTableWithColumns(surveyData)
-
-## ---- person-table ----
-makeTableWithColumns(personData)
-
-## ---- logevent-table ----
-makeTableWithColumns(logEventData)
