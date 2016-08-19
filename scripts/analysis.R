@@ -1,4 +1,5 @@
 library(ggplot2)
+library(plyr)
 library(dplyr)
 library(xtable)
 library(knitr)
@@ -22,9 +23,27 @@ logEventData$EXTRA_STRING[logEventData$EXTRA_STRING == ''] = NA
 
 
 
-makeTableWithColumns = function(dataframe) {
-    columnTable = data.frame(colnames(dataframe))
-    colnames(columnTable) = c('field name')
-    xtable(columnTable)
+makeTableWithColumns = function(dataframe, columnDescriptions) {
+    columnDescriptions = ldply(columnDescriptions)
+    colnames(columnDescriptions) = c('field')
+    # Suppress conversion warning:
+    columnDescriptions = transform(columnDescriptions, field = factor(field))
+
+    columnTable = data.frame(field = colnames(dataframe))
+    columnTable = left_join(columnTable, columnDescriptions, by = 'field')
+    colnames(columnTable) = c('Field name', 'Description')
+
+    sanitizeText = function(s) {
+        # field name is UPPER_CASE and has to be \verb
+        if (all(s == toupper(s))) {
+            # scheiß R, durch bug kann man keinen backslash vor _ einsetzen
+            #s = gsub('_', '\\_', s)
+            #s = gsub('_', '\\\\_', s)
+            s = paste0('\\verb|', s, '|')
+        }
+        return(s)
+    }
+    xtab = xtable(columnTable, align = c('r', 'p{3cm}', 'p{10cm}'))
+    print(xtab, type = 'latex', sanitize.text.function = sanitizeText)
 }
 
