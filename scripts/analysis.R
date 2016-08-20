@@ -4,6 +4,8 @@ library(dplyr)
 library(xtable)
 library(knitr)
 
+source('seat_info.R')
+
 getCsvFileName = function(baseName) {
     return(paste0('../data/', baseName, '.csv'))
 }
