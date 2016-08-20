@@ -14,9 +14,13 @@ readCsvFile = function(baseName) {
     return(read.csv(getCsvFileName(baseName)))
 }
 
-surveyData   = readCsvFile('SURVEY')
-personData   = readCsvFile('PERSON')
-logEventData = readCsvFile('LOG_EVENT')
+surveyRawData   = readCsvFile('SURVEY')
+personRawData   = readCsvFile('PERSON')
+logEventRawData = readCsvFile('LOG_EVENT')
+
+surveyData   = surveyRawData
+personData   = personRawData
+logEventData = logEventRawData
 
 ## Pre-process data
 
@@ -33,6 +37,8 @@ logEventData$EXTRA_STRING[logEventData$EXTRA_STRING == ''] = NA
 logEventData = mutate(logEventData,
     TIME = as.character(TIME),
     EXTRA_STRING = as.character(EXTRA_STRING))
+
+# Add TIME column to surveyData
 
 surveyStartTimes = logEventData %>%
     filter(EVENT_TYPE == 'INITIALIZATION_END') %>%

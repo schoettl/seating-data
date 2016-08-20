@@ -28,6 +28,8 @@ getSeatColumn = function(seatNumber) {
         return(0)
 }
 
+# Return a list with keys: windowSeat, aisleSeat,
+# forwardFacing, backwardFacing, row, column
 getSeatInformation = function(seatNumber, drivingDirection) {
     result = list()
 
