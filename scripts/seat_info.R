@@ -31,19 +31,19 @@ getSeatColumn = function(seatNumber) {
 getSeatInformation = function(seatNumber, drivingDirection) {
     result = list()
 
-    column = getSeatColumn(seatNumber)
-    row    = getSeatRow(seatNumber)
+    seatColumn = getSeatColumn(seatNumber)
+    seatRow    = getSeatRow(seatNumber)
 
-    result$windowSeat = column %in% c(1, 4)
+    result$windowSeat = seatColumn %in% c(1, 4)
     result$aisleSeat  = !result$windowSeat
 
     backward = (drivingDirection == 'BACKWARD')
     result$forwardFacing = xor(backward,
-        row %in% c(2, 4))
+        seatRow %in% c(2, 4))
     result$backwardFacing = !result$forwardFacing
 
-    result$row    = row
-    result$column = column
+    result$row    = seatRow
+    result$column = seatColumn
 
     result
 }
