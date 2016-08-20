@@ -27,8 +27,18 @@ personData$M_GROUP[personData$M_GROUP == 0] = NA
 logEventData$PERSON[logEventData$PERSON == 0] = NA
 # Change empty extra string to NA
 logEventData$EXTRA_STRING[logEventData$EXTRA_STRING == ''] = NA
+# Change some column types
+logEventData = mutate(logEventData,
+    TIME = as.character(TIME),
+    EXTRA_STRING = as.character(EXTRA_STRING))
 
+surveyStartTimes = logEventData %>%
+    filter(EVENT_TYPE == 'INITIALIZATION_END') %>%
+    group_by(SURVEY) %>%
+    summarize(TIME = max(TIME)) %>%
+    select(SURVEY, TIME)
 
+surveyData = surveyData %>% left_join(surveyStartTimes, by = c('ID' = 'SURVEY'))
 
 
 makeTableWithColumns = function(dataframe, columnDescriptions, tableNameForCaption) {
