@@ -63,11 +63,15 @@ surveyData = mutate(surveyData,
 
 ## Generate more useful data by using the log events
 
-state = newState()
-for (i in 1:nrow(logEventData)) {
-    event = logEventRawData[i, ]
-#   if (isSitDownEvent(event)) {
-#       writeNewData
-#   }
-    state = updateState(state, event)
+for (i in 1:nrow(surveyData)) {
+    logEvents = logEventData[logEventData$SURVEY == i, ]
+    state = newState()
+    for (j in 1:nrow(logEvents)) {
+        event = logEventRawData[j, ]
+    #   if (isSitDownEvent(event)) {
+    #       writeNewData
+    #   }
+        state = updateState(state, event)
+        printState(state)
+    }
 }

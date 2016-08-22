@@ -107,3 +107,8 @@ updateState = function(state, event) {
 
     state
 }
+
+printState = function(state) {
+    seatsToPrint = state$seats$persons
+    print(matrix(seatsToPrint, ncol = 4))
+}
