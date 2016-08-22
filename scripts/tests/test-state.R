@@ -12,8 +12,13 @@ test_that('newState produces the desired list', {
     state = newState()
     expect_that(state, is_a('list'))
     expect_that(length(state), equals(6))
+
     expect_that(state$seats, is_a('list'))
     expect_that(length(state$seats), equals(3))
+    expect_that(length(state$seats$persons), equals(SEAT_COUNT))
+    expect_that(length(state$seats$baggage), equals(SEAT_COUNT))
+    expect_that(length(state$seats$disturbing), equals(SEAT_COUNT))
+
     expect_that(state$stopping, equals(FALSE))
     expect_that(state$direction, is_a('factor'))
     expect_that(as.character(state$direction), equals('FORWARD'))
@@ -105,7 +110,7 @@ test_that('SIT_DOWN state update works', {
     expect_that(updatedState$seats, is_invariant_except(state$seats,
         c('persons', 'baggage')))
     expect_that(updatedState$seats$persons[TEST_SEAT], equals(TEST_PERSON))
-    expect_that(updatedState$seats$baggage[TEST_SEAT], equals(NULL))
+    expect_that(updatedState$seats$baggage[TEST_SEAT], equals(NA))
 })
 
 test_that('LEAVE state update works', {
@@ -118,7 +123,7 @@ test_that('LEAVE state update works', {
         c('lastUpdate', 'seats')))
     expect_that(updatedState$seats, is_invariant_except(state$seats,
         c('persons')))
-    expect_that(updatedState$seats$persons[TEST_SEAT], equals(NULL))
+    expect_that(updatedState$seats$persons[TEST_SEAT], equals(NA))
 })
 
 test_that('CHANGE_SEAT state update works', {
@@ -131,7 +136,7 @@ test_that('CHANGE_SEAT state update works', {
         c('lastUpdate', 'seats')))
     expect_that(updatedState$seats, is_invariant_except(state$seats,
         c('persons')))
-    expect_that(updatedState$seats$persons[1], equals(NULL))
+    expect_that(updatedState$seats$persons[1], equals(NA))
     expect_that(updatedState$seats$persons[TEST_SEAT], equals(TEST_PERSON))
 })
 
@@ -154,7 +159,7 @@ test_that('REMOVE_BAGGAGE state update works', {
         c('lastUpdate', 'seats')))
     expect_that(updatedState$seats, is_invariant_except(state$seats,
         c('baggage')))
-    expect_that(updatedState$seats$baggage[TEST_SEAT], equals(NULL))
+    expect_that(updatedState$seats$baggage[TEST_SEAT], equals(NA))
 })
 
 test_that('DISTURBING state update works', {

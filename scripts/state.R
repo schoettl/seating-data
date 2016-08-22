@@ -3,8 +3,11 @@ SEAT_COUNT = 16
 newState = function() {
     list(
         seats = list(
-                     persons = rep(NULL, SEAT_COUNT),
-                     baggage = rep(NULL, SEAT_COUNT),
+                     # for the vectors here, I have to use NA instead of NULL
+                     # (although it stands for not defined, not for N/A)
+                     # because rep(NULL, 5) == NULL
+                     persons = rep(NA, SEAT_COUNT),
+                     baggage = rep(NA, SEAT_COUNT),
                      disturbing = rep(FALSE, SEAT_COUNT)),
         stopping = FALSE, # TRUE between DOOR_RELEASE and TRAIN_STARTS
         direction = factor('FORWARD', levels = c('FORWARD', 'BACKWARD')),
