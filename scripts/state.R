@@ -66,13 +66,13 @@ handleEvent.REMOVE_BAGGAGE = function(event, state) {
 }
 
 handleEvent.DISTURBING = function(event, state) {
+    state$seats$disturbing[event$SEAT] = TRUE
     commonUpdateState(event, state)
-    # TODO implement
 }
 
 handleEvent.STOPS_DISTURBING = function(event, state) {
+    state$seats$disturbing[event$SEAT] = FALSE
     commonUpdateState(event, state)
-    # TODO implement
 }
 
 handleEvent.DOOR_RELEASE = function(event, state) {

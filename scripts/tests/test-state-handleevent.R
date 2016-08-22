@@ -120,14 +120,24 @@ test_that('DISTURBING state update works', {
     state = newState()
     event = createTestEvent('DISTURBING')
     updatedState = handleEvent(event, state)
-    # TODO implement
+    expect_that(updatedState, is_invariant_except(state,
+        c('lastUpdate', 'seats')))
+    expect_that(updatedState$seats, is_invariant_except(state$seats,
+        c('disturbing')))
+    expect_that(updatedState$seats$disturbing[TEST_SEAT], is_true())
 })
 
 test_that('STOPS_DISTURBING state update works', {
     state = newState()
+    state$seats$disturbing[TEST_SEAT] = TRUE
+
     event = createTestEvent('STOPS_DISTURBING')
     updatedState = handleEvent(event, state)
-    # TODO implement
+    expect_that(updatedState, is_invariant_except(state,
+        c('lastUpdate', 'seats')))
+    expect_that(updatedState$seats, is_invariant_except(state$seats,
+        c('disturbing')))
+    expect_that(updatedState$seats$disturbing[TEST_SEAT], is_false())
 })
 
 test_that('DOOR_RELEASE state update works', {
