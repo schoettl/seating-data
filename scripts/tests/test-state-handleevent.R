@@ -9,6 +9,25 @@ is_invariant_except = function(originalList, notInvariantFields) {
 }
 
 
+test_that('is_invariant_except works', {
+    original = list(a = 1, b = 'foo', c = 'bar')
+
+    x = original
+    expect_that(x, is_invariant_except(original, c('a')))
+
+    x$a = 2
+    expect_that(x, is_invariant_except(original, c('a')))
+    
+    x$b = 'baz'
+    # fail expected:
+    # expect_that(x, is_invariant_except(original, c('a')))
+
+    x = original
+    x$c = 'baz'
+    # fail expected:
+    # expect_that(x, is_invariant_except(original, c('a')))
+})
+
 TEST_SEAT = 5
 TEST_PERSON = 42
 TEST_DIRECTION = 'BACKWARD'
@@ -122,6 +141,7 @@ test_that('DOOR_RELEASE state update works', {
 
 test_that('TRAIN_STARTS state update works', {
     state = newState()
+    state$stopping = TRUE
     event = createTestEvent('TRAIN_STARTS')
     updatedState = handleEvent(event, state)
     expect_that(updatedState, is_invariant_except(state,
@@ -135,7 +155,7 @@ test_that('DIRECTION_CHANGE state update works', {
     updatedState = handleEvent(event, state)
     expect_that(updatedState, is_invariant_except(state,
         c('lastUpdate', 'direction')))
-    expect_that(updatedState$direction, equals('BACKWARD'))
+    expect_that(as.character(updatedState$direction), equals('BACKWARD'))
 })
 
 test_that('COUNT_STANDING_PERSONS state update works', {

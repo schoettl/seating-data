@@ -37,46 +37,61 @@ handleEvent.INITIALIZATION_END = function(event, state) {
 }
 
 handleEvent.SIT_DOWN = function(event, state) {
+    # actually, events should (and will) have removed the baggage before
+    state$seats$baggage[event$SEAT] = NA
+    state$seats$persons[event$SEAT] = event$PERSON
     commonUpdateState(event, state)
 }
 
 handleEvent.LEAVE = function(event, state) {
+    state$seats$persons[event$SEAT] = NA
     commonUpdateState(event, state)
 }
 
 handleEvent.CHANGE_SEAT = function(event, state) {
+    oldSeat = which(state$seats$persons == event$PERSON)
+    state$seats$persons[oldSeat] = NA
+    state$seats$persons[event$SEAT] = event$PERSON
     commonUpdateState(event, state)
 }
 
 handleEvent.PLACE_BAGGAGE = function(event, state) {
+    state$seats$baggage[event$SEAT] = event$PERSON
     commonUpdateState(event, state)
 }
 
 handleEvent.REMOVE_BAGGAGE = function(event, state) {
+    state$seats$baggage[event$SEAT] = NA
     commonUpdateState(event, state)
 }
 
 handleEvent.DISTURBING = function(event, state) {
     commonUpdateState(event, state)
+    # TODO implement
 }
 
 handleEvent.STOPS_DISTURBING = function(event, state) {
     commonUpdateState(event, state)
+    # TODO implement
 }
 
 handleEvent.DOOR_RELEASE = function(event, state) {
+    state$stopping = TRUE
     commonUpdateState(event, state)
 }
 
 handleEvent.TRAIN_STARTS = function(event, state) {
+    state$stopping = FALSE
     commonUpdateState(event, state)
 }
 
 handleEvent.DIRECTION_CHANGE = function(event, state) {
+    state$direction = event$EXTRA_STRING
     commonUpdateState(event, state)
 }
 
 handleEvent.COUNT_STANDING_PERSONS = function(event, state) {
+    state$standingPersons = event$EXTRA_INT
     commonUpdateState(event, state)
 }
 

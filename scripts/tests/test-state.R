@@ -44,22 +44,3 @@ test_that('the default method gives a warning', {
     returnedState = suppressWarnings(handleEvent(event, state))
     expect_that(returnedState, equals(state))
 })
-
-test_that('is_invariant_except works', {
-    original = list(a = 1, b = 'foo', c = 'bar')
-
-    x = original
-    expect_that(x, is_invariant_except(original, c('a')))
-
-    x$a = 2
-    expect_that(x, is_invariant_except(original, c('a')))
-    
-    x$b = 'baz'
-    # fail expected:
-    # expect_that(x, is_invariant_except(original, c('a')))
-
-    x = original
-    x$c = 'baz'
-    # fail expected:
-    # expect_that(x, is_invariant_except(original, c('a')))
-})
