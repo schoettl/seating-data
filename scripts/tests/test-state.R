@@ -110,7 +110,7 @@ test_that('SIT_DOWN state update works', {
     expect_that(updatedState$seats, is_invariant_except(state$seats,
         c('persons', 'baggage')))
     expect_that(updatedState$seats$persons[TEST_SEAT], equals(TEST_PERSON))
-    expect_that(updatedState$seats$baggage[TEST_SEAT], equals(NA))
+    expect_that(is.na(updatedState$seats$baggage[TEST_SEAT]), is_true())
 })
 
 test_that('LEAVE state update works', {
@@ -123,7 +123,7 @@ test_that('LEAVE state update works', {
         c('lastUpdate', 'seats')))
     expect_that(updatedState$seats, is_invariant_except(state$seats,
         c('persons')))
-    expect_that(updatedState$seats$persons[TEST_SEAT], equals(NA))
+    expect_that(is.na(updatedState$seats$persons[TEST_SEAT]), is_true())
 })
 
 test_that('CHANGE_SEAT state update works', {
@@ -136,7 +136,7 @@ test_that('CHANGE_SEAT state update works', {
         c('lastUpdate', 'seats')))
     expect_that(updatedState$seats, is_invariant_except(state$seats,
         c('persons')))
-    expect_that(updatedState$seats$persons[1], equals(NA))
+    expect_that(is.na(updatedState$seats$persons[1]), is_true())
     expect_that(updatedState$seats$persons[TEST_SEAT], equals(TEST_PERSON))
 })
 
@@ -159,7 +159,7 @@ test_that('REMOVE_BAGGAGE state update works', {
         c('lastUpdate', 'seats')))
     expect_that(updatedState$seats, is_invariant_except(state$seats,
         c('baggage')))
-    expect_that(updatedState$seats$baggage[TEST_SEAT], equals(NA))
+    expect_that(is.na(updatedState$seats$baggage[TEST_SEAT]), is_true())
 })
 
 test_that('DISTURBING state update works', {
