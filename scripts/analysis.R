@@ -40,19 +40,19 @@ surveyData = surveyData %>% left_join(surveyStartTimes, by = c('ID' = 'SURVEY'))
 
 # Fix column types and NA values
 
-# with(personData, ...) has no effect to the outside
-# does not work:
-# personData = transform(personData, M_GROUP[M_GROUP == 0] = NA)
-# Change foreign key NULL 0 values to NA
-surveyData$AGENT[surveyData$AGENT == 0] = NA
-personData$M_GROUP[personData$M_GROUP == 0] = NA
-logEventData$PERSON[logEventData$PERSON == 0] = NA
-# Change empty extra string to NA
-logEventData$EXTRA_STRING[logEventData$EXTRA_STRING == ''] = NA
-# Change some column types
+# - Change foreign key NULL 0 values to NA
+# - Fix date/time columns
+
+surveyData = mutate(surveyData,
+    AGENT = ifelse(AGENT == 0, NA, AGENT))
+
+personData = mutate(personData,
+    M_GROUP = ifelse(M_GROUP == 0, NA, M_GROUP))
+
 logEventData = mutate(logEventData,
-    TIME = hms(as.character(TIME)),
-    EXTRA_STRING = as.character(EXTRA_STRING))
+    PERSON = ifelse(PERSON == 0, NA, PERSON),
+    EXTRA_STRING = ifelse(EXTRA_STRING == '', NA, as.character(EXTRA_STRING)),
+    TIME = hms(as.character(TIME)))
 
 surveyData = mutate(surveyData,
     DATE = as.character(DATE),
