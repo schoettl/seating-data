@@ -6,6 +6,7 @@ library(xtable)
 library(knitr)
 
 source('seat_info.R')
+source('state.R')
 
 getCsvFileName = function(baseName) {
     paste0('../data/', baseName, '.csv')
@@ -59,3 +60,14 @@ surveyData = mutate(surveyData,
     DATE = ymd(DATE),
     TIME = hms(TIME),
     DATETIME = ymd_hms(paste(DATE, TIME)))
+
+## Generate more useful data by using the log events
+
+state = newState()
+for (i in 1:nrow(logEventData)) {
+    event = logEventRawData[i, ]
+#   if (isSitDownEvent(event)) {
+#       writeNewData
+#   }
+    state = updateState(state, event)
+}
