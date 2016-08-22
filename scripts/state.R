@@ -7,8 +7,8 @@ newState = function() {
                      baggage = rep(NULL, SEAT_COUNT),
                      disturbing = rep(FALSE, SEAT_COUNT)),
         stopping = FALSE, # TRUE between DOOR_RELEASE and TRAIN_STARTS
-        direction = factor('FORWARD'),
-        standingPersons = 0,
+        direction = factor('FORWARD', levels = c('FORWARD', 'BACKWARD')),
+        standingPersons = NA,
         initialized = FALSE,
         lastUpdate = NULL)
 }
@@ -70,6 +70,10 @@ handleEvent.TRAIN_STARTS = function(event, state) {
 }
 
 handleEvent.DIRECTION_CHANGE = function(event, state) {
+    commonUpdateState(event, state)
+}
+
+handleEvent.COUNT_STANDING_PERSONS = function(event, state) {
     commonUpdateState(event, state)
 }
 
