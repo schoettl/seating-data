@@ -44,6 +44,7 @@ surveyData = surveyData %>% left_join(surveyStartTimes, by = c('ID' = 'SURVEY'))
 # - Fix date/time columns
 
 surveyData = mutate(surveyData,
+    DATE = as.character(DATE),
     AGENT = ifelse(AGENT == 0, NA, AGENT))
 
 personData = mutate(personData,
@@ -55,10 +56,6 @@ logEventData = mutate(logEventData,
     TIME = hms(as.character(TIME)))
 
 surveyData = mutate(surveyData,
-    DATE = as.character(DATE),
-    DATETIME = paste(DATE, TIME))
-
-surveyData = mutate(surveyData,
     DATE = ymd(DATE),
     TIME = hms(TIME),
-    DATETIME = ymd_hms(DATETIME))
+    DATETIME = ymd_hms(paste(DATE, TIME)))
