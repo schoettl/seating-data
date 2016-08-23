@@ -30,8 +30,8 @@ test_that('processing works', {
     events = readRDS('logEventDataTest1.rds')
     surveys = data.frame(ID = c(2, 4))
 
-    surveyData = generateSurveyData(surveys, events)
+    seatingData = generateSeatingData(surveys, events)
 
-    expect_that(nrow(surveyData), equals(
+    expect_that(nrow(seatingData), equals(
                 nrow(filter(events, EVENT_TYPE == 'SIT_DOWN'))))
 })

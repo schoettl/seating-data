@@ -85,7 +85,7 @@ logEventData = arrange(logEventData, ID, TIME)
 
 ## Generate more useful data by using the log events
 
-generateSurveyData = function(surveyData, logEventData) {
+generateSeatingData = function(surveyData, logEventData) {
     seatingData = data.frame()
 
     # create collector function and pass data value for its "static" variable
@@ -106,4 +106,4 @@ generateSurveyData = function(surveyData, logEventData) {
     seatingData
 }
 
-seatingData = generateSurveyData(surveyData, logEventData)
+seatingData = generateSeatingData(surveyData, logEventData)
