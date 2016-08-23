@@ -93,7 +93,7 @@ for (i in 1:nrow(surveyData)) {
     logEvents = filter(logEventData, SURVEY == surveyData$ID[i])
     state = newState()
     for (j in 1:nrow(logEvents)) {
-        event = logEventRawData[j, ]
+        event = logEvents[j, ]
         stateBefore = state
         state = updateState(state, event)
         # seatingData = collectSeatingData(stateBefore, state, event, seatingData)
