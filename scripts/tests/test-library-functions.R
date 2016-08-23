@@ -15,3 +15,11 @@ test_that('general library functions work as expected', {
     vec = c(1, 0)
     expect_that(ifelse(vec == 0, NA, vec), equals(c(1, NA)))
 })
+
+test_that('dplyr functions work as expected', {
+    # does arrange respect the sort order?
+    df = data.frame(V1 = c(0, 2, 1, 8, 7),
+                    V2 = c(5, 4, 4, 3, 3),
+                    order = 1:5)
+    expect_that(arrange(df, V2, V1)$order, equals(rev(df$order)))
+})

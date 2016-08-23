@@ -26,17 +26,32 @@ logEventData = logEventRawData
 
 ## Preprocess data
 
+# Remove duplicate INITIALIZATION_END events
+
+getInitEndEvents = function(logEventData) {
+    filter(logEventData, EVENT_TYPE == 'INITIALIZATION_END')
+}
+
+removeDuplicateInitEndEvents = function(logEventData, initEndEvents) {
+    initEndEvents = getInitEndEvents(logEventData)
+
+    lastEvents = initEndEvents %>%
+        group_by(SURVEY) %>%
+        summarize(ID = max(ID)) %>%
+        select(ID)
+
+    duplicateInitEndEvents = subset(initEndEvents, !(initEndEvents$ID %in% lastEvents$ID))
+    logEventData %>% anti_join(duplicateInitEndEvents, by = 'ID')
+}
+
+logEventData = removeDuplicateInitEndEvents(logEventData)
+
 # Add TIME column to surveyData
 
-logEventData$TIME = as.character(logEventData$TIME)
+logEventData$TIME = as.character(logEventData$TIME) # from factor
 
-surveyStartTimes = logEventData %>%
-    filter(EVENT_TYPE == 'INITIALIZATION_END') %>%
-    group_by(SURVEY) %>%
-    summarize(TIME = max(TIME)) %>%
-    select(SURVEY, TIME)
-
-surveyData = surveyData %>% left_join(surveyStartTimes, by = c('ID' = 'SURVEY'))
+initEndEvents = getInitEndEvents(logEventData)
+surveyData = surveyData %>% left_join(initEndEvents, by = c('ID' = 'SURVEY'))
 
 
 # Fix column types and NA values
@@ -60,6 +75,12 @@ surveyData = mutate(surveyData,
     DATE = ymd(DATE),
     TIME = hms(TIME),
     DATETIME = ymd_hms(paste(DATE, TIME)))
+
+
+# Fix order of log events (it might have changed during joins or other dplyr functions)
+
+# IDs must be (weak) monotonic increasing within a survey
+logEventData = arrange(logEventData, ID, TIME)
 
 ## Generate more useful data by using the log events
 
