@@ -105,3 +105,5 @@ generateSurveyData = function(surveyData, logEventData) {
 
     seatingData
 }
+
+seatingData = generateSurveyData(surveyData, logEventData)
