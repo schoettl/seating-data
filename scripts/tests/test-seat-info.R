@@ -14,9 +14,6 @@ test.getSeatRow = function() {
 
     checkEquals(1, getSeatRow(2))
     checkEquals(4, getSeatRow(15))
-
-    checkEquals(0, getSeatRow(0))
-    checkEquals(0, getSeatRow(17))
 }
 
 test.getSeatColumn = function() {
@@ -35,9 +32,6 @@ test.getSeatColumn = function() {
 
     checkEquals(4, getSeatColumn(4))
     checkEquals(4, getSeatColumn(16))
-
-    checkEquals(0, getSeatColumn(0))
-    checkEquals(0, getSeatColumn(17))
 }
 
 test.getSeatInformation.BackwardForward = function() {

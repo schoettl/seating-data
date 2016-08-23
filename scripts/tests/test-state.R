@@ -41,6 +41,4 @@ test_that('the default method gives a warning', {
 
     state = newState()
     expect_that(handleEvent(event, state), gives_warning('not supported'))
-    returnedState = suppressWarnings(handleEvent(event, state))
-    expect_that(returnedState, equals(state))
 })

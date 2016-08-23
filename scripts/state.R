@@ -23,7 +23,6 @@ handleEvent = function(event, state) {
 
 handleEvent.default = function(event, state) {
     warning(paste0('event not supported: ', event$ID, ', ', event$EVENT_TYPE))
-    state
 }
 
 commonUpdateState = function(event, state) {

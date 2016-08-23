@@ -1,23 +1,35 @@
 
 checkSeatNumberValid = function(seatNumber) {
-    if (any(seatNumber < 1 || seatNumber > SEAT_COUNT))
-        error('invalid seat number')
+    if (any(seatNumber < 1 | seatNumber > SEAT_COUNT))
+        stop('invalid seat number')
 }
 
 getSeatRow = function(seatNumber) {
     checkSeatNumberValid(seatNumber)
-    ifelse(seatNumber <=  4, 1,
-    ifelse(seatNumber <=  8, 2,
-    ifelse(seatNumber <= 12, 3,
-    ifelse(seatNumber <= 16, 4))))
+    sapply(seatNumber, function(seatNumber) {
+        if      (seatNumber <= 4)
+            return(1)
+        else if (seatNumber <= 8)
+            return(2)
+        else if (seatNumber <= 12)
+            return(3)
+        else if (seatNumber <= 16)
+            return(4)
+    })
 }
 
 getSeatColumn = function(seatNumber) {
     checkSeatNumberValid(seatNumber)
-    ifelse(((seatNumber %% 4) == 0), 4,
-    ifelse(((seatNumber %% 2) == 0), 2,
-    ifelse((((seatNumber - 1) %% 4) == 0), 1,
-    ifelse((((seatNumber - 1) %% 2) == 0), 3))))
+    sapply(seatNumber, function(seatNumber) {
+        if      ((seatNumber %% 4) == 0)
+            return(4)
+        else if ((seatNumber %% 2) == 0)
+            return(2)
+        else if (((seatNumber - 1) %% 4) == 0)
+            return(1)
+        else if (((seatNumber - 1) %% 2) == 0)
+            return(3)
+    })
 }
 
 # Return a list with keys: windowSeat, aisleSeat,
@@ -44,8 +56,14 @@ getSeatInformation = function(seatNumber, drivingDirection) {
 
 getSeatGroup = function(seatNumber) {
     checkSeatNumberValid(seatNumber)
-    ifelse(seatNumber %in% c(1,2,5,6), 1,
-    ifelse(seatNumber %in% c(3,4,7,8), 2,
-    ifelse(seatNumber %in% c(9,10,13,14), 3,
-    ifelse(seatNumber %in% c(11,12,15,16), 4))))
+    sapply(seatNumber, function(seatNumber) {
+        if      (seatNumber %in% c(1,2,5,6))
+            return(1)
+        else if (seatNumber %in% c(3,4,7,8))
+            return(2)
+        else if (seatNumber %in% c(9,10,13,14))
+            return(3)
+        else if (seatNumber %in% c(11,12,15,16))
+            return(4)
+    })
 }

@@ -7,6 +7,7 @@ library(knitr)
 
 source('seat_info.R')
 source('state.R')
+source('collector.R')
 
 getCsvFileName = function(baseName) {
     paste0('../data/', baseName, '.csv')
@@ -86,8 +87,7 @@ logEventData = arrange(logEventData, ID, TIME)
 
 seatingData = data.frame()
 
-collectSeatingData = function(stateBefore, state, event) {
-}
+collectSeatingData = CollectSeatingData(logEventData)
 
 for (i in 1:nrow(surveyData)) {
     logEvents = logEventData[logEventData$SURVEY == i, ]
@@ -96,7 +96,7 @@ for (i in 1:nrow(surveyData)) {
         event = logEventRawData[j, ]
         stateBefore = state
         state = updateState(state, event)
-        collectSeatingData(stateBefore, state, event)
+        # seatingData = collectSeatingData(stateBefore, state, event, seatingData)
         # printState(state)
     }
 }
