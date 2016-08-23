@@ -109,6 +109,9 @@ updateState = function(state, event) {
 }
 
 printState = function(state) {
-    seatsToPrint = state$seats$persons
+    persons = ifelse(is.na(state$seats$persons), '', paste0('#',  state$seats$persons))
+    baggage = ifelse(is.na(state$seats$baggage), '', paste0('B#', state$seats$baggage))
+    disturbing = ifelse(state$seats$disturbing, 'd', '')
+    seatsToPrint = paste0(persons, baggage, disturbing)
     print(matrix(seatsToPrint, ncol = 4))
 }
