@@ -85,18 +85,23 @@ logEventData = arrange(logEventData, ID, TIME)
 
 ## Generate more useful data by using the log events
 
-seatingData = data.frame()
+generateSurveyData = function(surveyData, logEventData) {
+    seatingData = data.frame()
 
-collectSeatingData = CollectSeatingData(logEventData)
+    # create collector function and pass data value for its "static" variable
+    collectSeatingData = CollectSeatingData(logEventData)
 
-for (i in 1:nrow(surveyData)) {
-    logEvents = filter(logEventData, SURVEY == surveyData$ID[i])
-    state = newState()
-    for (j in 1:nrow(logEvents)) {
-        event = logEvents[j, ]
-        stateBefore = state
-        state = updateState(state, event)
-        # seatingData = collectSeatingData(stateBefore, state, event, seatingData)
-        printState(state)
+    for (i in 1:nrow(surveyData)) {
+        logEvents = filter(logEventData, SURVEY == surveyData$ID[i])
+        state = newState()
+        for (j in 1:nrow(logEvents)) {
+            event = logEvents[j, ]
+            stateBefore = state
+            state = updateState(state, event)
+            seatingData = collectSeatingData(stateBefore, state, event, seatingData)
+            # printState(state)
+        }
     }
+
+    seatingData
 }

@@ -24,3 +24,14 @@ test_that('removing duplicate init events works', {
     result = removeDuplicateInitEndEvents(events, filtered)
     expect_that(sort(result$ID), equals(c(2,4,5,7,8,9,10,12,13)))
 })
+
+test_that('processing works', {
+    # saveRDS(filter(logEventData, SURVEY %in% c(2, 4)), file='tests/logEventDataTest1.rds')
+    events = readRDS('logEventDataTest1.rds')
+    surveys = data.frame(ID = c(2, 4))
+
+    surveyData = generateSurveyData(surveys, events)
+
+    expect_that(nrow(surveyData), equals(
+                nrow(filter(events, EVENT_TYPE == 'SIT_DOWN'))))
+})
