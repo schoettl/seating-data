@@ -42,3 +42,20 @@ test_that('the default method gives a warning', {
     state = newState()
     expect_that(handleEvent(event, state), gives_warning('not supported'))
 })
+
+test_that('printState works', {
+    state = newState()
+    expect_that(printState(state), prints_text('^[^#]*$'))
+
+    state$seats$persons[1] = 5
+    expect_that(printState(state), prints_text('"#5"'))
+
+    state$seats$baggage[2] = 6
+    expect_that(printState(state), prints_text('"B#6"'))
+
+    state$seats$baggage[1] = 5
+    expect_that(printState(state), prints_text('"#5B#5"'))
+
+    state$seats$disturbing[1] = TRUE
+    expect_that(printState(state), prints_text('"#5B#5d"'))
+})

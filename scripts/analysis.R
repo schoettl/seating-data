@@ -90,13 +90,13 @@ seatingData = data.frame()
 collectSeatingData = CollectSeatingData(logEventData)
 
 for (i in 1:nrow(surveyData)) {
-    logEvents = logEventData[logEventData$SURVEY == i, ]
+    logEvents = filter(logEventData, SURVEY == surveyData$ID[i])
     state = newState()
     for (j in 1:nrow(logEvents)) {
         event = logEventRawData[j, ]
         stateBefore = state
         state = updateState(state, event)
         # seatingData = collectSeatingData(stateBefore, state, event, seatingData)
-        # printState(state)
+        printState(state)
     }
 }
