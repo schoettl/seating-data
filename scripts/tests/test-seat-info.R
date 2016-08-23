@@ -83,3 +83,17 @@ checkWindow = function(expected, seatNumber) {
     checkEquals(expected,  result$windowSeat)
     checkEquals(expected, !result$aisleSeat)
 }
+
+test_that('getting the seat group number works', {
+    expect_that(getSeatGroup(0), throws_error())
+
+    expect_that(getSeatGroup(1), equals(1))
+    expect_that(getSeatGroup(2), equals(1))
+    expect_that(getSeatGroup(6), equals(1))
+
+    expect_that(getSeatGroup(3), equals(2))
+
+    expect_that(getSeatGroup(9), equals(3))
+
+    expect_that(getSeatGroup(16), equals(4))
+})
