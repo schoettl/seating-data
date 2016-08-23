@@ -84,15 +84,19 @@ logEventData = arrange(logEventData, ID, TIME)
 
 ## Generate more useful data by using the log events
 
+seatingData = data.frame()
+
+collectSeatingData = function(stateBefore, state, event) {
+}
+
 for (i in 1:nrow(surveyData)) {
     logEvents = logEventData[logEventData$SURVEY == i, ]
     state = newState()
     for (j in 1:nrow(logEvents)) {
         event = logEventRawData[j, ]
-    #   if (isSitDownEvent(event)) {
-    #       writeNewData
-    #   }
+        stateBefore = state
         state = updateState(state, event)
-        printState(state)
+        collectSeatingData(stateBefore, state, event)
+        # printState(state)
     }
 }
