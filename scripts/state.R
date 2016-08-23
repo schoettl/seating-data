@@ -22,7 +22,7 @@ handleEvent = function(event, state) {
 }
 
 handleEvent.default = function(event, state) {
-    warning(paste0('event not supported: ', event$EVENT_TYPE))
+    warning(paste0('event not supported: ', event$ID, ', ', event$EVENT_TYPE))
     state
 }
 
