@@ -1,3 +1,18 @@
+getNumberOfSitDownEventsAfterInitEnd = function(events) {
+    initEndEvents = filter(events, EVENT_TYPE == 'INITIALIZATION_END')
+    result = 0
+    for (i in 1:nrow(initEndEvents)) {
+        e = initEndEvents[i, ]
+        n = events %>%
+            filter(SURVEY == e$SURVEY &
+                   ID > e$ID &
+                   EVENT_TYPE == 'SIT_DOWN') %>%
+            nrow
+        result = result + n
+    }
+    result
+}
+
 test_that('removing duplicate init events works', {
     initEndEvType = 'INITIALIZATION_END'
     data = matrix(
@@ -32,17 +47,8 @@ test_that('processing works', {
 
     seatingData = generateSeatingData(surveys, events)
 
-    initEndEvents = filter(events, EVENT_TYPE == 'INITIALIZATION_END')
-    nEventsAfterInitEnd = 0
-    for (i in 1:nrow(initEndEvents)) {
-        e = initEndEvents[i, ]
-        n = events %>%
-            filter(SURVEY == e$SURVEY &
-                   ID > e$ID &
-                   EVENT_TYPE == 'SIT_DOWN') %>%
-            nrow
-        nEventsAfterInitEnd = nEventsAfterInitEnd + n
-    }
-
-    expect_that(nrow(seatingData), equals(nEventsAfterInitEnd))
+    expect_that(nrow(seatingData) < nrow(filter(events, EVENT_TYPE == 'SIT_DOWN')),
+        is_true())
+    expect_that(nrow(seatingData),
+        equals(getNumberOfSitDownEventsAfterInitEnd(events)))
 })
