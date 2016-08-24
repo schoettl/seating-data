@@ -28,3 +28,13 @@ test_that('persons on neigbor seats are detected', {
     expect_that(getPersonOnVisAVisSeat(state, event), equals(NA))
     expect_that(getPersonOnDiagonalVisAVisSeat(state, event), equals(NA))
 })
+
+test_that('isEventOfType works', {
+    evType = 'SIT_DOWN'
+    event = data.frame(EVENT_TYPE = c(evType))
+
+    expect_that(isEventOfType(event, evType), is_true())
+
+    otherEvType = paste0(' ', evType)
+    expect_that(isEventOfType(event, otherEvType), is_false())
+})

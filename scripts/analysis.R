@@ -78,11 +78,12 @@ addTimeColumn = function(surveyData, logEventData) {
 generateSeatingData = function(surveyData, logEventData) {
     seatingData = data.frame()
 
-    # create collector function and pass data value for its "static" variable
-    collectSeatingData = CollectSeatingData(logEventData)
-
     for (i in 1:nrow(surveyData)) {
         logEvents = filter(logEventData, SURVEY == surveyData$ID[i])
+
+        # create collector function and pass data value for its "static" variable
+        collectSeatingData = CollectSeatingData(logEvents)
+
         state = newState()
         for (j in 1:nrow(logEvents)) {
             event = logEvents[j, ]

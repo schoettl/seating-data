@@ -2,10 +2,12 @@
 CollectSeatingData = function(logEventData) {
     # closure variables:
     eventData = logEventData
+    collectionStarted = FALSE
 
     # collect data function:
     function(stateBefore, state, event, seatingData) {
-        if (all(event$EVENT_TYPE == 'SIT_DOWN')) {
+        print(paste(event$ID, collectionStarted))
+        if (collectionStarted && isEventOfType(event, 'SIT_DOWN')) {
             newRow = list(
                 person                   = event$PERSON,
                 seat                     = event$SEAT,
@@ -16,9 +18,16 @@ CollectSeatingData = function(logEventData) {
                 personVisAVis            = getPersonOnVisAVisSeat(state, event),
                 personDiagonal           = getPersonOnDiagonalVisAVisSeat(state, event))
             seatingData = rbind(seatingData, newRow)
+        } else if (isEventOfType(event, 'INITIALIZATION_END')) {
+            collectionStarted = TRUE
         }
+
         seatingData
     }
+}
+
+isEventOfType = function(event, type) {
+    all(event$EVENT_TYPE == type)
 }
 
 returnNAForZeroLength = function(vec) {

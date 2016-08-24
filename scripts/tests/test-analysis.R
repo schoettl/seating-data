@@ -32,6 +32,17 @@ test_that('processing works', {
 
     seatingData = generateSeatingData(surveys, events)
 
-    expect_that(nrow(seatingData), equals(
-                nrow(filter(events, EVENT_TYPE == 'SIT_DOWN'))))
+    initEndEvents = filter(events, EVENT_TYPE == 'INITIALIZATION_END')
+    nEventsAfterInitEnd = 0
+    for (i in 1:nrow(initEndEvents)) {
+        e = initEndEvents[i, ]
+        n = events %>%
+            filter(SURVEY == e$SURVEY &
+                   ID > e$ID &
+                   EVENT_TYPE == 'SIT_DOWN') %>%
+            nrow
+        nEventsAfterInitEnd = nEventsAfterInitEnd + n
+    }
+
+    expect_that(nrow(seatingData), equals(nEventsAfterInitEnd))
 })
