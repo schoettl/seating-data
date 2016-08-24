@@ -6,7 +6,6 @@ CollectSeatingData = function(logEventData) {
 
     # collect data function:
     function(stateBefore, state, event, seatingData) {
-        print(paste(event$ID, collectionStarted))
         if (collectionStarted && isEventOfType(event, 'SIT_DOWN')) {
             newRow = list(
                 person                   = event$PERSON,
@@ -19,7 +18,7 @@ CollectSeatingData = function(logEventData) {
                 personDiagonal           = getPersonOnDiagonalVisAVisSeat(state, event))
             seatingData = rbind(seatingData, newRow)
         } else if (isEventOfType(event, 'INITIALIZATION_END')) {
-            collectionStarted = TRUE
+            collectionStarted <<- TRUE
         }
 
         seatingData
