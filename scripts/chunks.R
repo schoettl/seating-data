@@ -48,9 +48,7 @@ surveyData = mutate(surveyData,
 # (Above operations cannot guarantee to keep the order)
 logEventData = arrange(logEventData, ID, TIME)
 
-## ---- seating-rest ----
-
-## Generate more useful data by using the log events
+## ---- seating-generate-seating-data ----
 
 seatingData = generateSeatingData(surveyData, logEventData)
 
