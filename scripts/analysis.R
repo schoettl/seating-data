@@ -68,6 +68,12 @@ removeDuplicateInitEndEvents = function(logEventData, initEndEvents) {
     logEventData %>% anti_join(duplicateInitEndEvents, by = 'ID')
 }
 
+addTimeColumn = function(surveyData, logEventData) {
+    initEndEvents = getInitEndEvents(logEventData)
+    left_join(surveyData, initEndEvents, by = c('ID' = 'SURVEY'))
+
+}
+
 # logEventData: ordered log events
 generateSeatingData = function(surveyData, logEventData) {
     seatingData = data.frame()

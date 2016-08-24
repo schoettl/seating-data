@@ -12,23 +12,10 @@ surveyRawData   = surveyData
 personRawData   = personData
 logEventRawData = logEventData
 
-## ---- seating-remove-duplicate-init-end ----
+## ---- seating-preprocessing ----
 
 # Remove duplicate INITIALIZATION_END events
 logEventData = removeDuplicateInitEndEvents(logEventData)
-
-## ---- seating-add-time-column ----
-
-# Add TIME column to surveyData
-
-logEventData = mutate(logEventData,
-    TIME = as.character(TIME)) # from factor
-
-initEndEvents = getInitEndEvents(logEventData)
-surveyData = surveyData %>%
-    left_join(initEndEvents, by = c('ID' = 'SURVEY'))
-
-## ---- seating-preprocessing ----
 
 # Fix column types and NA values
 
@@ -36,7 +23,7 @@ surveyData = surveyData %>%
 # - Fix date/time columns
 
 surveyData = mutate(surveyData,
-    DATE = as.character(DATE),
+    DATE = as.character(DATE), # from factor
     AGENT = ifelse(AGENT == 0, NA, AGENT))
 
 personData = mutate(personData,
@@ -45,7 +32,11 @@ personData = mutate(personData,
 logEventData = mutate(logEventData,
     PERSON = ifelse(PERSON == 0, NA, PERSON),
     EXTRA_STRING = ifelse(EXTRA_STRING == '', NA, as.character(EXTRA_STRING)),
+    TIME = as.character(TIME), # from factor
     LTIME = hms(TIME))
+
+# Add TIME column to surveyData
+surveyData = addTimeColumn(surveyData, logEventData)
 
 surveyData = mutate(surveyData,
     LDATE = ymd(DATE),
