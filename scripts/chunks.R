@@ -1,35 +1,70 @@
-source('analysis.R')
+source('analysis.R', chdir = TRUE)
 
-makeTableWithColumns = function(dataframe, columnDescriptions, tableNameForCaption) {
-    columnDescriptions = ldply(columnDescriptions)
-    colnames(columnDescriptions) = c('field')
-    # Suppress conversion warning:
-    columnDescriptions = mutate(columnDescriptions, field = factor(field))
+## ---- seating-load-data ----
 
-    columnTable = data.frame(field = colnames(dataframe))
-    columnTable = left_join(columnTable, columnDescriptions, by = 'field')
-    colnames(columnTable) = c('Field name', 'Description')
+surveyData   = readCsvFile('SURVEY')
+personData   = readCsvFile('PERSON')
+logEventData = readCsvFile('LOG_EVENT')
 
-    sanitizeText = function(s) {
-        # field name is UPPER_CASE and has to be \verb
-        if (all(s == toupper(s))) {
-            # scheiß R, durch bug kann man keinen backslash vor _ einsetzen
-            #s = gsub('_', '\\_', s)
-            #s = gsub('_', '\\\\_', s)
-            s = paste0('\\verb|', s, '|')
-        }
-        return(s)
-    }
+## ---- seating-keep-raw-data ----
 
-    xtab = xtable(columnTable, align = c('r', 'p{3cm}', 'p{10cm}'),
-        caption = paste0('Columns of the ', tableNameForCaption, ' table.'))
+surveyRawData   = surveyData
+personRawData   = personData
+logEventRawData = logEventData
 
-    print(xtab, type = 'latex',
-          sanitize.text.function = sanitizeText,
-          table.placement = '!h')
-}
+## ---- seating-remove-duplicate-init-end ----
+
+# Remove duplicate INITIALIZATION_END events
+logEventData = removeDuplicateInitEndEvents(logEventData)
+
+## ---- seating-add-time-column ----
+
+# Add TIME column to surveyData
+
+logEventData = mutate(logEventData,
+    TIME = as.character(TIME)) # from factor
+
+initEndEvents = getInitEndEvents(logEventData)
+surveyData = surveyData %>%
+    left_join(initEndEvents, by = c('ID' = 'SURVEY'))
+
+## ---- seating-preprocessing ----
+
+# Fix column types and NA values
+
+# - Change foreign key NULL 0 values to NA
+# - Fix date/time columns
+
+surveyData = mutate(surveyData,
+    DATE = as.character(DATE),
+    AGENT = ifelse(AGENT == 0, NA, AGENT))
+
+personData = mutate(personData,
+    M_GROUP = ifelse(M_GROUP == 0, NA, M_GROUP))
+
+logEventData = mutate(logEventData,
+    PERSON = ifelse(PERSON == 0, NA, PERSON),
+    EXTRA_STRING = ifelse(EXTRA_STRING == '', NA, as.character(EXTRA_STRING)),
+    LTIME = hms(TIME))
+
+surveyData = mutate(surveyData,
+    LDATE = ymd(DATE),
+    LTIME = hms(TIME),
+    LDATETIME = ymd_hms(paste(DATE, TIME)))
+
+# Fix order of log events (above operations cannot guarantee to keep the order)
+# IDs must be (weak) monotonic increasing within a survey
+logEventData = arrange(logEventData, ID, TIME)
+
+## ---- seating-rest ----
+
+## Generate more useful data by using the log events
+
+seatingData = generateSeatingData(surveyData, logEventData)
+
 
 ## ---- seating-survey-table ----
+
 tableColumns = c('DATE', 'TIME', 'STARTING_AT', 'LINE', 'DESTINATION')
 xtab = xtable(surveyData[, tableColumns],
     # align = c('r', 'p{3cm}', 'p{10cm}'),
@@ -38,3 +73,4 @@ xtab = xtable(surveyData[, tableColumns],
 
 print(xtab, type = 'latex',
     table.placement = 'ht')
+
