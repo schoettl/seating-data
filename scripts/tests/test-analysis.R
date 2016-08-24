@@ -17,9 +17,9 @@ test_that('removing duplicate init events works', {
         ncol = 3, byrow = TRUE)
     events = data.frame(data, stringsAsFactors = FALSE)
     colnames(events) = c('ID', 'SURVEY', 'EVENT_TYPE')
-    events = transform(events, ID = as.integer(ID), SURVEY = as.integer(SURVEY))
+    events = mutate(events, ID = as.integer(ID), SURVEY = as.integer(SURVEY))
 
-    filtered = subset(events, events$EVENT_TYPE == initEndEvType)
+    filtered = filter(events, EVENT_TYPE == initEndEvType)
 
     result = removeDuplicateInitEndEvents(events, filtered)
     expect_that(sort(result$ID), equals(c(2,4,5,7,8,9,10,12,13)))

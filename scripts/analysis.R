@@ -5,7 +5,7 @@ library(lubridate)
 library(xtable)
 library(knitr)
 
-source('seat_info.R')
+source('seat-info.R')
 source('state.R')
 source('collector.R')
 
@@ -41,7 +41,7 @@ removeDuplicateInitEndEvents = function(logEventData, initEndEvents) {
         summarize(ID = max(ID)) %>%
         select(ID)
 
-    duplicateInitEndEvents = subset(initEndEvents, !(initEndEvents$ID %in% lastEvents$ID))
+    duplicateInitEndEvents = filter(initEndEvents, !(ID %in% lastEvents$ID))
     logEventData %>% anti_join(duplicateInitEndEvents, by = 'ID')
 }
 

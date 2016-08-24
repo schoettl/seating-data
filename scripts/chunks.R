@@ -4,7 +4,7 @@ makeTableWithColumns = function(dataframe, columnDescriptions, tableNameForCapti
     columnDescriptions = ldply(columnDescriptions)
     colnames(columnDescriptions) = c('field')
     # Suppress conversion warning:
-    columnDescriptions = transform(columnDescriptions, field = factor(field))
+    columnDescriptions = mutate(columnDescriptions, field = factor(field))
 
     columnTable = data.frame(field = colnames(dataframe))
     columnTable = left_join(columnTable, columnDescriptions, by = 'field')
