@@ -19,7 +19,8 @@ logEventData = removeDuplicateInitEndEvents(logEventData)
 
 # Fix column types and NA values
 
-# - Change foreign key NULL 0 values to NA
+# - Change missing foreign key values to NA
+# - Change missing text to NA
 # - Fix date/time columns
 
 surveyData = mutate(surveyData,
@@ -43,8 +44,8 @@ surveyData = mutate(surveyData,
     LTIME = hms(TIME),
     LDATETIME = ymd_hms(paste(DATE, TIME)))
 
-# Fix order of log events (above operations cannot guarantee to keep the order)
-# IDs must be (weak) monotonic increasing within a survey
+# Fix order of log events
+# (Above operations cannot guarantee to keep the order)
 logEventData = arrange(logEventData, ID, TIME)
 
 ## ---- seating-rest ----
