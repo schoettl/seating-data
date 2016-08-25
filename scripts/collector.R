@@ -1,7 +1,7 @@
 
 createCollectDataFunction = function(logEventData) {
     # closure variables:
-    eventData = logEventData
+    allEvents = logEventData
     collectionStarted = FALSE
 
     # collect data function:
