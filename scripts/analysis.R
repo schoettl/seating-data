@@ -76,7 +76,7 @@ addTimeColumn = function(surveyData, logEventData) {
 
 # logEventData: ordered log events
 generateMoreData = function(surveyData, logEventData) {
-    seatingData = data.frame()
+    data = data.frame()
 
     for (i in 1:nrow(surveyData)) {
         logEvents = filter(logEventData, SURVEY == surveyData$ID[i])
@@ -89,10 +89,10 @@ generateMoreData = function(surveyData, logEventData) {
             event = logEvents[j, ]
             stateBefore = state
             state = updateState(state, event)
-            seatingData = collectData(seatingData, stateBefore, state, event)
+            data = collectData(data, stateBefore, state, event)
             # printState(state)
         }
     }
 
-    seatingData
+    data
 }
