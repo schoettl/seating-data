@@ -8,15 +8,17 @@ CollectData = function(logEventData) {
     function(seatingData, stateBefore, state, event) {
         if (collectionStarted && isEventOfType(event, 'SIT_DOWN')) {
             newRow = list(
-                person                   = event$PERSON,
-                seat                     = event$SEAT,
-                numberPersonsCompartment = getNumberOfPersonsInCompartment(stateBefore),
-                numberPersonsSeatGroup   = getNumberOfPersonsInSeatGroup(stateBefore, event),
-                # wasBaggageSeat           = NULL,
-                personNext               = getPersonOnNextSeat(state, event),
-                personVisAVis            = getPersonOnVisAVisSeat(state, event),
-                personDiagonal           = getPersonOnDiagonalVisAVisSeat(state, event))
+                person              = event$PERSON,
+                seat                = event$SEAT,
+                nPersonsCompartment = getNumberOfPersonsInCompartment(stateBefore),
+                nPersonsSeatGroup   = getNumberOfPersonsInSeatGroup(stateBefore, event),
+                # wasBaggageSeat      = NULL,
+                personNext          = getPersonOnNextSeat(state, event),
+                personVisAVis       = getPersonOnVisAVisSeat(state, event),
+                personDiagonal      = getPersonOnDiagonalVisAVisSeat(state, event))
+
             seatingData = rbind(seatingData, newRow)
+
         } else if (isEventOfType(event, 'INITIALIZATION_END')) {
             collectionStarted <<- TRUE
         }
