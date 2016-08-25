@@ -8,6 +8,7 @@ createCollectDataFunction = function(logEventData) {
     function(data, stateBefore, state, event) {
         if (collectionStarted && isEventOfType(event, 'SIT_DOWN')) {
             newRow = list(
+                survey              = event$SURVEY,
                 person              = event$PERSON,
                 seat                = event$SEAT,
                 nPersonsCompartment = getNumberOfPersonsInCompartment(stateBefore),
