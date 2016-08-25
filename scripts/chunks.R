@@ -63,4 +63,3 @@ xtab = xtable(surveyData[, tableColumns],
 
 print(xtab, type = 'latex',
     table.placement = 'ht')
-

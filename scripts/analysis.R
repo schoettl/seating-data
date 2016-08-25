@@ -52,6 +52,24 @@ makeTableWithColumns = function(dataframe, columnDescriptions, tableNameForCapti
           table.placement = '!h')
 }
 
+makeColumnDescriptionTable = function(dataframe, columnDescriptions, tableCaption, sanitizeTextFunction) {
+    columnDescriptions = ldply(columnDescriptions)
+    colnames(columnDescriptions) = c('field', 'description')
+    # To suppress conversion warning later:
+    columnDescriptions = mutate(columnDescriptions, field = factor(field))
+
+    columnTable = data.frame(field = colnames(dataframe))
+    columnTable = left_join(columnTable, columnDescriptions, by = 'field')
+    colnames(columnTable) = c('Field name', 'Description')
+
+    xtab = xtable(columnTable, align = c('r', 'p{3cm}', 'p{10cm}'),
+        caption = tableCaption)
+
+    print(xtab, type = 'latex',
+          sanitize.text.function = sanitizeTextFunction,
+          table.placement = '!h')
+}
+
 getInitEndEvents = function(logEventData) {
     filter(logEventData, EVENT_TYPE == 'INITIALIZATION_END')
 }
