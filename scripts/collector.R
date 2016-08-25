@@ -1,5 +1,5 @@
 
-CollectSeatingData = function(logEventData) {
+CollectData = function(logEventData) {
     # closure variables:
     eventData = logEventData
     collectionStarted = FALSE

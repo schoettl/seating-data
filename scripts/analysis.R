@@ -82,14 +82,14 @@ generateSeatingData = function(surveyData, logEventData) {
         logEvents = filter(logEventData, SURVEY == surveyData$ID[i])
 
         # create collector function and pass data value for its "static" variable
-        collectSeatingData = CollectSeatingData(logEvents)
+        collectData = CollectData(logEvents)
 
         state = newState()
         for (j in 1:nrow(logEvents)) {
             event = logEvents[j, ]
             stateBefore = state
             state = updateState(state, event)
-            seatingData = collectSeatingData(seatingData, stateBefore, state, event)
+            seatingData = collectData(seatingData, stateBefore, state, event)
             # printState(state)
         }
     }
