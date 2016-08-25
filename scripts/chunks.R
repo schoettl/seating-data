@@ -50,7 +50,7 @@ logEventData = arrange(logEventData, ID, TIME)
 
 ## ---- seating-generate-seating-data ----
 
-seatingData = generateSeatingData(surveyData, logEventData)
+seatingData = generateMoreData(surveyData, logEventData)
 
 
 ## ---- seating-survey-table ----

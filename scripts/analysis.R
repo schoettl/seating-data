@@ -75,7 +75,7 @@ addTimeColumn = function(surveyData, logEventData) {
 }
 
 # logEventData: ordered log events
-generateSeatingData = function(surveyData, logEventData) {
+generateMoreData = function(surveyData, logEventData) {
     seatingData = data.frame()
 
     for (i in 1:nrow(surveyData)) {
