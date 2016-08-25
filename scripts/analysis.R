@@ -82,7 +82,7 @@ generateMoreData = function(surveyData, logEventData) {
         logEvents = filter(logEventData, SURVEY == surveyData$ID[i])
 
         # create collector function and pass data value for its "static" variable
-        collectData = CollectData(logEvents)
+        collectData = createCollectDataFunction(logEvents)
 
         state = newState()
         for (j in 1:nrow(logEvents)) {

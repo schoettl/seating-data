@@ -1,11 +1,11 @@
 
-CollectData = function(logEventData) {
+createCollectDataFunction = function(logEventData) {
     # closure variables:
     eventData = logEventData
     collectionStarted = FALSE
 
     # collect data function:
-    function(seatingData, stateBefore, state, event) {
+    function(data, stateBefore, state, event) {
         if (collectionStarted && isEventOfType(event, 'SIT_DOWN')) {
             newRow = list(
                 person              = event$PERSON,
@@ -17,13 +17,13 @@ CollectData = function(logEventData) {
                 personVisAVis       = getPersonOnVisAVisSeat(state, event),
                 personDiagonal      = getPersonOnDiagonalVisAVisSeat(state, event))
 
-            seatingData = rbind(seatingData, newRow)
+            data = rbind(data, newRow)
 
         } else if (isEventOfType(event, 'INITIALIZATION_END')) {
             collectionStarted <<- TRUE
         }
 
-        seatingData
+        data
     }
 }
 
