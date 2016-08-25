@@ -5,7 +5,7 @@ CollectSeatingData = function(logEventData) {
     collectionStarted = FALSE
 
     # collect data function:
-    function(stateBefore, state, event, seatingData) {
+    function(seatingData, stateBefore, state, event) {
         if (collectionStarted && isEventOfType(event, 'SIT_DOWN')) {
             newRow = list(
                 person                   = event$PERSON,

@@ -89,7 +89,7 @@ generateSeatingData = function(surveyData, logEventData) {
             event = logEvents[j, ]
             stateBefore = state
             state = updateState(state, event)
-            seatingData = collectSeatingData(stateBefore, state, event, seatingData)
+            seatingData = collectSeatingData(seatingData, stateBefore, state, event)
             # printState(state)
         }
     }
