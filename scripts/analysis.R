@@ -6,6 +6,7 @@ library(dplyr)
 library(lubridate)
 library(xtable)
 library(knitr)
+library(stringr)
 
 source('seat-info.R')
 source('state.R')
@@ -24,16 +25,8 @@ readCsvFile = function(baseName) {
 }
 
 makeTableWithColumns = function(dataframe, columnDescriptions, tableNameForCaption) {
-    columnDescriptions = ldply(columnDescriptions)
-    colnames(columnDescriptions) = c('field', 'description')
-    # To suppress conversion warning later:
-    columnDescriptions = mutate(columnDescriptions, field = factor(field))
 
-    columnTable = data.frame(field = colnames(dataframe))
-    columnTable = left_join(columnTable, columnDescriptions, by = 'field')
-    colnames(columnTable) = c('Field name', 'Description')
-
-    sanitizeText = function(s) {
+    sanitizeTextFunction = function(s) {
         # field name is UPPER_CASE and has to be \verb
         if (all(s == toupper(s))) {
             # scheiß R, durch bug kann man keinen backslash vor _ einsetzen
@@ -44,12 +37,20 @@ makeTableWithColumns = function(dataframe, columnDescriptions, tableNameForCapti
         return(s)
     }
 
-    xtab = xtable(columnTable, align = c('r', 'p{3cm}', 'p{10cm}'),
-        caption = paste('Columns of the', tableNameForCaption, 'table.'))
+    tableCaption = paste('Columns of the', tableNameForCaption, 'table.')
 
-    print(xtab, type = 'latex',
-          sanitize.text.function = sanitizeText,
-          table.placement = '!h')
+    makeColumnDescriptionTable(dataframe, columnDescriptions, tableCaption, sanitizeTextFunction)
+}
+
+makeSeatingDataColumnDescriptionTable = function(dataframe, columnDescriptions, tableCaption) {
+    sanitizeTextFunction = function(s) {
+        # Only the field name has 1 single word
+        if (hasNoSpaces(s)) {
+            s = paste0('\\verb|', s, '|')
+        }
+        s
+    }
+    makeColumnDescriptionTable(dataframe, columnDescriptions, tableCaption, sanitizeTextFunction)
 }
 
 makeColumnDescriptionTable = function(dataframe, columnDescriptions, tableCaption, sanitizeTextFunction) {
@@ -68,6 +69,11 @@ makeColumnDescriptionTable = function(dataframe, columnDescriptions, tableCaptio
     print(xtab, type = 'latex',
           sanitize.text.function = sanitizeTextFunction,
           table.placement = '!h')
+}
+
+hasNoSpaces = function(s) {
+    # countWords overstrains R, it is not possible with base functions
+    length(str_split(s, ' ')[[1]]) == 1
 }
 
 getInitEndEvents = function(logEventData) {

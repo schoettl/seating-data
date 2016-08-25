@@ -52,3 +52,12 @@ test_that('processing works', {
     expect_that(nrow(seatingData),
         equals(getNumberOfSitDownEventsAfterInitEnd(events)))
 })
+
+test_that('hasNoSpaces works', {
+    expect_that(hasNoSpaces(''), is_true())
+    expect_that(hasNoSpaces('uiae'), is_true())
+    expect_that(hasNoSpaces(' uiae'), is_false())
+    expect_that(hasNoSpaces('uiae '), is_false())
+    expect_that(hasNoSpaces(' '), is_false())
+    expect_that(hasNoSpaces('  '), is_false())
+})
