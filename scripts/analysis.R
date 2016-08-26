@@ -24,7 +24,7 @@ readCsvFile = function(baseName) {
     read.csv(getCsvFileName(baseName))
 }
 
-makeTableWithColumns = function(dataframe, columnDescriptions, tableNameForCaption) {
+makeTableWithColumns = function(dataframe, columnDescriptions, tableNameForCaption, tableLabel) {
 
     sanitizeTextFunction = function(s) {
         # field name is UPPER_CASE and has to be \verb
@@ -39,10 +39,10 @@ makeTableWithColumns = function(dataframe, columnDescriptions, tableNameForCapti
 
     tableCaption = paste('Columns of the', tableNameForCaption, 'table.')
 
-    makeColumnDescriptionTable(dataframe, columnDescriptions, tableCaption, sanitizeTextFunction)
+    makeColumnDescriptionTable(dataframe, columnDescriptions, tableCaption, tableLabel, sanitizeTextFunction)
 }
 
-makeSeatingDataColumnDescriptionTable = function(dataframe, columnDescriptions, tableCaption) {
+makeSeatingDataColumnDescriptionTable = function(dataframe, columnDescriptions, tableCaption, tableLabel) {
     sanitizeTextFunction = function(s) {
         # Only the field name has 1 single word
         if (hasNoSpaces(s)) {
@@ -50,10 +50,10 @@ makeSeatingDataColumnDescriptionTable = function(dataframe, columnDescriptions, 
         }
         s
     }
-    makeColumnDescriptionTable(dataframe, columnDescriptions, tableCaption, sanitizeTextFunction)
+    makeColumnDescriptionTable(dataframe, columnDescriptions, tableCaption, tableLabel, sanitizeTextFunction)
 }
 
-makeColumnDescriptionTable = function(dataframe, columnDescriptions, tableCaption, sanitizeTextFunction) {
+makeColumnDescriptionTable = function(dataframe, columnDescriptions, tableCaption, tableLabel, sanitizeTextFunction) {
     columnDescriptions = ldply(columnDescriptions)
     colnames(columnDescriptions) = c('field', 'description')
     # To suppress conversion warning later:
@@ -64,7 +64,7 @@ makeColumnDescriptionTable = function(dataframe, columnDescriptions, tableCaptio
     colnames(columnTable) = c('Field name', 'Description')
 
     xtab = xtable(columnTable, align = c('r', 'p{3cm}', 'p{10cm}'),
-        caption = tableCaption)
+        caption = tableCaption, label = tableLabel)
 
     print(xtab, type = 'latex',
           sanitize.text.function = sanitizeTextFunction,
