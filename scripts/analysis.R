@@ -24,7 +24,7 @@ readCsvFile = function(baseName) {
     read.csv(getCsvFileName(baseName))
 }
 
-makeTableWithColumns = function(dataframe, columnDescriptions, tableNameForCaption, tableLabel) {
+makeDataColumnDescriptionTable = function(dataframe, columnDescriptions, tableNameForCaption, tableLabel) {
 
     sanitizeTextFunction = function(s) {
         # field name is UPPER_CASE and has to be \verb
