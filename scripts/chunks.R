@@ -63,3 +63,9 @@ xtab = xtable(surveyData[, tableColumns],
 
 print(xtab, type = 'latex',
     table.placement = 'ht')
+
+## ---- seating-group-related-data ----
+
+groupRelatedSeatingData = seatingData %>%
+    inner_join(personData, by = c('person' = 'ID')) %>%
+    filter(!is.na(M_GROUP))
