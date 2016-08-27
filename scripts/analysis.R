@@ -39,7 +39,8 @@ makeDataColumnDescriptionTable = function(dataframe, columnDescriptions, tableNa
 
     tableCaption = paste('Columns of the', tableNameForCaption, 'table.')
 
-    makeColumnDescriptionTable(dataframe, columnDescriptions, tableCaption, tableLabel, sanitizeTextFunction)
+    makeColumnDescriptionTable(dataframe, columnDescriptions, tableCaption,
+                               tableLabel, sanitizeTextFunction, 3)
 }
 
 makeSeatingDataColumnDescriptionTable = function(dataframe, columnDescriptions, tableCaption, tableLabel) {
@@ -50,10 +51,11 @@ makeSeatingDataColumnDescriptionTable = function(dataframe, columnDescriptions, 
         }
         s
     }
-    makeColumnDescriptionTable(dataframe, columnDescriptions, tableCaption, tableLabel, sanitizeTextFunction)
+    makeColumnDescriptionTable(dataframe, columnDescriptions, tableCaption,
+                               tableLabel, sanitizeTextFunction, 4)
 }
 
-makeColumnDescriptionTable = function(dataframe, columnDescriptions, tableCaption, tableLabel, sanitizeTextFunction) {
+makeColumnDescriptionTable = function(dataframe, columnDescriptions, tableCaption, tableLabel, sanitizeTextFunction, fieldColumnWidthCm) {
     columnDescriptions = ldply(columnDescriptions)
     colnames(columnDescriptions) = c('field', 'description')
     # To suppress conversion warning later:
@@ -63,12 +65,19 @@ makeColumnDescriptionTable = function(dataframe, columnDescriptions, tableCaptio
     columnTable = left_join(columnTable, columnDescriptions, by = 'field')
     colnames(columnTable) = c('Field name', 'Description')
 
-    xtab = xtable(columnTable, align = c('r', 'p{3cm}', 'p{10cm}'),
+    xtab = xtable(columnTable, align = getXtableAlignment(fieldColumnWidthCm),
         caption = tableCaption, label = tableLabel)
 
     print(xtab, type = 'latex',
           sanitize.text.function = sanitizeTextFunction,
           table.placement = '!h')
+}
+
+getXtableAlignment = function(col2WidthCm) {
+    col3WidthCm = 13 - col2WidthCm
+    col2Align = paste0('p{', col2WidthCm, 'cm}')
+    col3Align = paste0('p{', col3WidthCm, 'cm}')
+    c('r', col2Align, col3Align)
 }
 
 hasNoSpaces = function(s) {
