@@ -80,3 +80,10 @@ test_that('seat information forward/backward works', {
     }
 
 })
+
+test_that('current driving direction forward/backward works', {
+    state = list(direction = 'FORWARD')
+    expect_that(getCurrentDrivingDirection(state), equals('FORWARD'))
+    state = list(direction = 'BACKWARD')
+    expect_that(getCurrentDrivingDirection(state), equals('BACKWARD'))
+})

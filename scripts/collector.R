@@ -22,6 +22,7 @@ createCollectDataFunction = function(logEventData) {
                 nPersonsSeatGroup   = getNumberOfPersonsInSeatGroup(stateBefore, event),
                 seatSide            = getSeatSide(event),
                 seatDirection       = getSeatFacingDirection(stateBefore, event),
+                direction           = getCurrentDrivingDirection(stateBefore),
                 # wasBaggageSeat      = NULL,
                 personNext          = getPersonOnNextSeat(state, event),
                 personVisAVis       = getPersonOnVisAVisSeat(state, event),
@@ -96,4 +97,8 @@ getSeatSide = function(event) {
 getSeatFacingDirection = function(state, event) {
     seatInfo = getSeatInformation(event$SEAT, state$direction)
     ifelse(seatInfo$forwardFacing, 'FORWARD', 'BACKWARD')
+}
+
+getCurrentDrivingDirection = function(state) {
+    state$direction
 }
