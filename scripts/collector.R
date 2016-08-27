@@ -7,7 +7,7 @@ createCollectDataFunction = function(logEventData) {
     # collect data function:
     function(data, stateBefore, state, event) {
         if (collectionStarted && isEventOfType(event, 'SIT_DOWN')) {
-            newRow = list(
+            newRow = data.frame(
                 survey              = event$SURVEY,
                 person              = event$PERSON,
                 seat                = event$SEAT,
