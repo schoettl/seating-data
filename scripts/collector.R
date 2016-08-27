@@ -1,4 +1,11 @@
 
+# Create a function with closure. The returned function
+# collects data for further analysis.
+#
+# The variable newRow must be single-row data frame, not a list!
+# Otherwise, rbind makes problems with character-factor conversion:
+# The first string is converted to 1-level factor,
+# the next different string has a "invalid factor level".
 createCollectDataFunction = function(logEventData) {
     # closure variables:
     allEvents = logEventData
@@ -7,7 +14,7 @@ createCollectDataFunction = function(logEventData) {
     # collect data function:
     function(data, stateBefore, state, event) {
         if (collectionStarted && isEventOfType(event, 'SIT_DOWN')) {
-            newRow = data.frame(
+            newRow = data.frame( # single-row data frame
                 survey              = event$SURVEY,
                 person              = event$PERSON,
                 seat                = event$SEAT,
