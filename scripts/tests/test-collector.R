@@ -38,3 +38,45 @@ test_that('isEventOfType works', {
     otherEvType = paste0(' ', evType)
     expect_that(isEventOfType(event, otherEvType), is_false())
 })
+
+test_that('seat information window/aisle works', {
+    event = list(SEAT = NA)
+
+    for (i in c(1,4,5,8,9,12,13,16)) {
+        event$SEAT = i
+        expect_that(getSeatSide(event), equals('WINDOW'))
+    }
+
+    for (i in c(2,3,6,7,10,11,14,15)) {
+        event$SEAT = i
+        expect_that(getSeatSide(event), equals('AISLE'))
+    }
+})
+
+test_that('seat information forward/backward works', {
+    event = list(SEAT = NA)
+
+    oddRowsSeats  = c(1:4,  9:12)
+    evenRowsSeats = c(5:8, 13:16)
+
+    state = list(direction = 'FORWARD')
+    for (i in oddRowsSeats) {
+        event$SEAT = i
+        expect_that(getSeatFacingDirection(state, event), equals('BACKWARD'))
+    }
+    for (i in evenRowsSeats) {
+        event$SEAT = i
+        expect_that(getSeatFacingDirection(state, event), equals('FORWARD'))
+    }
+
+    state = list(direction = 'BACKWARD')
+    for (i in oddRowsSeats) {
+        event$SEAT = i
+        expect_that(getSeatFacingDirection(state, event), equals('FORWARD'))
+    }
+    for (i in evenRowsSeats) {
+        event$SEAT = i
+        expect_that(getSeatFacingDirection(state, event), equals('BACKWARD'))
+    }
+
+})

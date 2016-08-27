@@ -69,3 +69,19 @@ print(xtab, type = 'latex',
 groupRelatedSeatingData = seatingData %>%
     inner_join(personData, by = c('person' = 'ID')) %>%
     filter(!is.na(M_GROUP))
+
+## ---- seating-data-plot-empty-side ----
+
+filteredData = filter(seatingData, nPersonsSeatGroup == 0)
+ggplot(filteredData, aes(seatSide)) +
+    geom_bar()
+
+## ---- seating-data-plot-empty-direction ----
+
+filteredData = filter(seatingData, nPersonsSeatGroup == 0)
+ggplot(filteredData, aes(seatDirection)) +
+    geom_bar()
+
+## ---- seating-data-plot- ----
+
+## ---- seating-data-plot- ----
