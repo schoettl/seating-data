@@ -81,7 +81,7 @@ getXtableAlignment = function(col2WidthCm) {
 }
 
 hasNoSpaces = function(s) {
-    # countWords overstrains R, it is not possible with base functions
+    # countWords overstrains R, I couldn't find a solution on the internet
     length(str_split(s, ' ')[[1]]) == 1
 }
 

@@ -64,8 +64,8 @@ getPersonOnNextSeat = function(state, event) {
     persons = state$seats$persons
     seats = which(!is.na(persons))
     result = persons[getSeatGroup(seats) == getSeatGroup(s) &
-            getSeatRow(seats)   == getSeatRow(s) &
-            seats != s]
+                     getSeatRow(seats)   == getSeatRow(s)   &
+                     seats != s]
     returnNAForZeroLength(result)
 }
 
