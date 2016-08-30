@@ -44,6 +44,7 @@ isEventOfType = function(event, type) {
     all(event$EVENT_TYPE == type)
 }
 
+# Return first non-NA value or NA if there is no such value.
 getFirstValueOrNA = function(vec) {
     # cannot return NULL: replacement has length zero
     indexes = which(!is.na(vec))
