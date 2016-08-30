@@ -134,6 +134,6 @@ generateMoreData = function(surveyData, logEventData) {
 # at which only one other person is sitting.
 getPositionRelative = function(data) {
     ifelse(!is.na(data$personNext),     'NEXT',
-    ifelse(!is.na(data$personVisAVis),  'ACROSS',
+    ifelse(!is.na(data$personAcross),   'ACROSS',
     ifelse(!is.na(data$personDiagonal), 'DIAGONAL', NA)))
 }

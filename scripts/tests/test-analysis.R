@@ -53,7 +53,7 @@ test_that('processing works', {
         equals(getNumberOfSitDownEventsAfterInitEnd(events)))
 
     numberPersonsSittingThere = forEachRowAsVec(seatingData,
-        c('personNext','personVisAVis','personDiagonal'), countAvailableValues)
+        c('personNext','personAcross','personDiagonal'), countAvailableValues)
     names(numberPersonsSittingThere) = NULL
     expect_that(seatingData$nPersonsSeatGroup,
         equals(numberPersonsSittingThere))
@@ -70,7 +70,7 @@ test_that('hasNoSpaces works', {
 
 test_that('hasNoSpaces works', {
     df = data.frame(personNext     = c(1, NA, NA, NA),
-                    personVisAVis  = c(NA, 1, NA, NA),
+                    personAcross   = c(NA, 1, NA, NA),
                     personDiagonal = c(NA, NA, 1, NA))
     expect_that(getPositionRelative(df),
             equals(c('NEXT', 'ACROSS', 'DIAGONAL', NA)))

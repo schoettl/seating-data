@@ -26,8 +26,8 @@ createCollectDataFunction = function(logEventData) {
                 direction           = getCurrentDrivingDirection(stateBefore),
                 # wasBaggageSeat      = NULL,
                 personNext          = getPersonOnNextSeat(state, event),
-                personVisAVis       = getPersonOnVisAVisSeat(state, event),
-                personDiagonal      = getPersonOnDiagonalVisAVisSeat(state, event)
+                personAcross        = getPersonOnAcrossSeat(state, event),
+                personDiagonal      = getPersonOnDiagonalAcrossSeat(state, event)
             )
 
             data = rbind(data, newRow)
@@ -71,7 +71,7 @@ getPersonOnNextSeat = function(state, event) {
     getFirstValueOrNA(result)
 }
 
-getPersonOnVisAVisSeat = function(state, event) {
+getPersonOnAcrossSeat = function(state, event) {
     s = event$SEAT
     persons = state$seats$persons
     result = persons[getSeatGroup(SEAT_NUMBERS)  == getSeatGroup(s)  &
@@ -80,7 +80,7 @@ getPersonOnVisAVisSeat = function(state, event) {
     getFirstValueOrNA(result)
 }
 
-getPersonOnDiagonalVisAVisSeat = function(state, event) {
+getPersonOnDiagonalAcrossSeat = function(state, event) {
     s = event$SEAT
     persons = state$seats$persons
     result = persons[getSeatGroup(SEAT_NUMBERS)  == getSeatGroup(s) &
