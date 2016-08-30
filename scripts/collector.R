@@ -32,6 +32,14 @@ createCollectDataFunction = function(logEventData) {
 
             data = rbind(data, newRow)
 
+            if (event$ID == 82) {
+                newRow = data[nrow(data), ] # now, newRow contains the row name (index)
+                print(event)
+                print(newRow)
+                printState(stateBefore)
+                printState(state)
+            }
+
         } else if (isEventOfType(event, 'INITIALIZATION_END')) {
             collectionStarted <<- TRUE
         }
