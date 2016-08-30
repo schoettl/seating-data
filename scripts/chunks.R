@@ -82,6 +82,14 @@ filteredData = filter(seatingData, nPersonsSeatGroup == 0)
 ggplot(filteredData, aes(seatDirection)) +
     geom_bar()
 
-## ---- seating-data-plot- ----
+## ---- seating-data-plot-position-relative ----
+
+filteredData = filter(seatingData, nPersonsSeatGroup == 1)
+filteredData$positionRelative = getPositionRelative(filteredData)
+ggplot(filteredData, aes(positionRelative)) +
+    geom_bar()
+
+# joining one person: where to sit relative?
+# facets: the already sitting person: side and facing direction
 
 ## ---- seating-data-plot- ----

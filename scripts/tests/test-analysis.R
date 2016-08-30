@@ -67,3 +67,11 @@ test_that('hasNoSpaces works', {
     expect_that(hasNoSpaces(' '), is_false())
     expect_that(hasNoSpaces('  '), is_false())
 })
+
+test_that('hasNoSpaces works', {
+    df = data.frame(personNext     = c(1, NA, NA, NA),
+                    personVisAVis  = c(NA, 1, NA, NA),
+                    personDiagonal = c(NA, NA, 1, NA))
+    expect_that(getPositionRelative(df),
+            equals(c('NEXT', 'ACROSS', 'DIAGONAL', NA)))
+})

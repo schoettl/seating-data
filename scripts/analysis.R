@@ -129,3 +129,11 @@ generateMoreData = function(surveyData, logEventData) {
 
     data
 }
+
+# To be used only for filtered events where a person sits down to a seat group
+# at which only one other person is sitting.
+getPositionRelative = function(data) {
+    ifelse(!is.na(data$personNext),     'NEXT',
+    ifelse(!is.na(data$personVisAVis),  'ACROSS',
+    ifelse(!is.na(data$personDiagonal), 'DIAGONAL', NA)))
+}
