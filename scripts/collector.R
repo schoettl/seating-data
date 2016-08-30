@@ -1,3 +1,4 @@
+SEAT_NUMBERS = 1:16
 
 # Create a function with closure. The returned function
 # collects data for further analysis.
@@ -63,30 +64,27 @@ getNumberOfPersonsInSeatGroup = function(stateBefore, event) {
 getPersonOnNextSeat = function(state, event) {
     s = event$SEAT
     persons = state$seats$persons
-    seats = which(!is.na(persons))
-    result = persons[getSeatGroup(seats) == getSeatGroup(s) &
-                     getSeatRow(seats)   == getSeatRow(s)   &
-                     seats != s]
+    result = persons[getSeatGroup(SEAT_NUMBERS) == getSeatGroup(s) &
+                     getSeatRow(SEAT_NUMBERS)   == getSeatRow(s)   &
+                     SEAT_NUMBERS != s]
     getFirstValueOrNA(result)
 }
 
 getPersonOnVisAVisSeat = function(state, event) {
     s = event$SEAT
     persons = state$seats$persons
-    seats = which(!is.na(persons))
-    result = persons[getSeatGroup(seats)  == getSeatGroup(s)  &
-                     getSeatColumn(seats) == getSeatColumn(s) &
-                     seats != s]
+    result = persons[getSeatGroup(SEAT_NUMBERS)  == getSeatGroup(s)  &
+                     getSeatColumn(SEAT_NUMBERS) == getSeatColumn(s) &
+                     SEAT_NUMBERS != s]
     getFirstValueOrNA(result)
 }
 
 getPersonOnDiagonalVisAVisSeat = function(state, event) {
     s = event$SEAT
     persons = state$seats$persons
-    seats = which(!is.na(persons))
-    result = persons[getSeatGroup(seats)  == getSeatGroup(s) &
-                     getSeatRow(seats)    != getSeatRow(s)   &
-                     getSeatColumn(seats) != getSeatColumn(s)]
+    result = persons[getSeatGroup(SEAT_NUMBERS)  == getSeatGroup(s) &
+                     getSeatRow(SEAT_NUMBERS)    != getSeatRow(s)   &
+                     getSeatColumn(SEAT_NUMBERS) != getSeatColumn(s)]
     getFirstValueOrNA(result)
 }
 

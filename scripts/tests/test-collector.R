@@ -36,17 +36,26 @@ test_that('persons on neigbor seats are detected', {
     expect_that(getPersonOnVisAVisSeat(state, event), equals(12))
     expect_that(getPersonOnDiagonalVisAVisSeat(state, event), equals(11))
 
-    state$seats$persons = rep(NA, SEAT_COUNT)
+    state$seats$persons = NA
     expect_that(getPersonOnNextSeat(state, event), equals(NA))
     expect_that(getPersonOnVisAVisSeat(state, event), equals(NA))
     expect_that(getPersonOnDiagonalVisAVisSeat(state, event), equals(NA))
 
-    state$seats$persons = rep(NA, SEAT_COUNT)
+    state$seats$persons = NA
     state$seats$persons[4] = 1
+    state$seats$persons[15] = 4
     event = list(SEAT = 7)
     expect_that(getPersonOnNextSeat(state, event), equals(NA))
     expect_that(getPersonOnVisAVisSeat(state, event), equals(NA))
     expect_that(getPersonOnDiagonalVisAVisSeat(state, event), equals(1))
+
+    state$seats$persons = NA
+    state$seats$persons[4] = 1
+    state$seats$persons[15] = 4
+    event = list(SEAT = 8)
+    expect_that(getPersonOnNextSeat(state, event), equals(NA))
+    expect_that(getPersonOnVisAVisSeat(state, event), equals(1))
+    expect_that(getPersonOnDiagonalVisAVisSeat(state, event), equals(NA))
 
 })
 

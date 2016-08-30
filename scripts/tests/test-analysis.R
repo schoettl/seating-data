@@ -56,7 +56,7 @@ test_that('processing works', {
         c('personNext','personVisAVis','personDiagonal'), countAvailableValues)
     names(numberPersonsSittingThere) = NULL
     expect_that(seatingData$nPersonsSeatGroup,
-        is_equivalent_to(numberPersonsSittingThere))
+        equals(numberPersonsSittingThere))
 })
 
 test_that('hasNoSpaces works', {
