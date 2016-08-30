@@ -10,6 +10,14 @@ test_that('number of persons is counted correctly', {
     expect_that(getNumberOfPersonsInSeatGroup(state, event), equals(2))
 })
 
+test_that('helper function getFirstValueOrNA works', {
+    expect_that(getFirstValueOrNA(c(5)), equals(5))
+    expect_that(getFirstValueOrNA(c(NA)), equals(NA))
+    expect_that(getFirstValueOrNA(c(NA, NA, 5, NA)), equals(5))
+    expect_that(getFirstValueOrNA(c(NA, 3,  5, NA)), equals(3))
+    expect_that(getFirstValueOrNA(c(NA, NA, NA)), equals(NA))
+})
+
 test_that('persons on neigbor seats are detected', {
     state = newState()
     state$seats$persons = 1:SEAT_COUNT
@@ -17,6 +25,11 @@ test_that('persons on neigbor seats are detected', {
     expect_that(getPersonOnNextSeat(state, event), equals(2))
     expect_that(getPersonOnVisAVisSeat(state, event), equals(5))
     expect_that(getPersonOnDiagonalVisAVisSeat(state, event), equals(6))
+
+    event = list(SEAT = 7)
+    expect_that(getPersonOnNextSeat(state, event), equals(8))
+    expect_that(getPersonOnVisAVisSeat(state, event), equals(3))
+    expect_that(getPersonOnDiagonalVisAVisSeat(state, event), equals(4))
 
     event = list(SEAT = 16)
     expect_that(getPersonOnNextSeat(state, event), equals(15))
@@ -27,6 +40,14 @@ test_that('persons on neigbor seats are detected', {
     expect_that(getPersonOnNextSeat(state, event), equals(NA))
     expect_that(getPersonOnVisAVisSeat(state, event), equals(NA))
     expect_that(getPersonOnDiagonalVisAVisSeat(state, event), equals(NA))
+
+    state$seats$persons = rep(NA, SEAT_COUNT)
+    state$seats$persons[4] = 1
+    event = list(SEAT = 7)
+    expect_that(getPersonOnNextSeat(state, event), equals(NA))
+    expect_that(getPersonOnVisAVisSeat(state, event), equals(NA))
+    expect_that(getPersonOnDiagonalVisAVisSeat(state, event), equals(1))
+
 })
 
 test_that('isEventOfType works', {

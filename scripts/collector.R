@@ -43,9 +43,10 @@ isEventOfType = function(event, type) {
     all(event$EVENT_TYPE == type)
 }
 
-returnNAForZeroLength = function(vec) {
+getFirstValueOrNA = function(vec) {
     # cannot return NULL: replacement has length zero
-    ifelse(length(vec) != 0, vec, NA)
+    indexes = which(!is.na(vec))
+    ifelse(length(indexes) != 0, vec[indexes[1]], NA)
 }
 
 getNumberOfPersonsInCompartment = function(stateBefore) {
@@ -66,7 +67,7 @@ getPersonOnNextSeat = function(state, event) {
     result = persons[getSeatGroup(seats) == getSeatGroup(s) &
                      getSeatRow(seats)   == getSeatRow(s)   &
                      seats != s]
-    returnNAForZeroLength(result)
+    getFirstValueOrNA(result)
 }
 
 getPersonOnVisAVisSeat = function(state, event) {
@@ -76,7 +77,7 @@ getPersonOnVisAVisSeat = function(state, event) {
     result = persons[getSeatGroup(seats)  == getSeatGroup(s)  &
                      getSeatColumn(seats) == getSeatColumn(s) &
                      seats != s]
-    returnNAForZeroLength(result)
+    getFirstValueOrNA(result)
 }
 
 getPersonOnDiagonalVisAVisSeat = function(state, event) {
@@ -86,7 +87,7 @@ getPersonOnDiagonalVisAVisSeat = function(state, event) {
     result = persons[getSeatGroup(seats)  == getSeatGroup(s) &
                      getSeatRow(seats)    != getSeatRow(s)   &
                      getSeatColumn(seats) != getSeatColumn(s)]
-    returnNAForZeroLength(result)
+    getFirstValueOrNA(result)
 }
 
 getSeatSide = function(event) {

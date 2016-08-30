@@ -54,6 +54,7 @@ test_that('processing works', {
 
     numberPersonsSittingThere = forEachRowAsVec(seatingData,
         c('personNext','personVisAVis','personDiagonal'), countAvailableValues)
+    names(numberPersonsSittingThere) = NULL
     expect_that(seatingData$nPersonsSeatGroup,
         is_equivalent_to(numberPersonsSittingThere))
 })
