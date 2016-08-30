@@ -23,39 +23,39 @@ test_that('persons on neigbor seats are detected', {
     state$seats$persons = 1:SEAT_COUNT
     event = list(SEAT = 1)
     expect_that(getPersonOnNextSeat(state, event), equals(2))
-    expect_that(getPersonOnAcrossSeat(state, event), equals(5))
-    expect_that(getPersonOnDiagonalAcrossSeat(state, event), equals(6))
+    expect_that(getPersonOnSeatAcross(state, event), equals(5))
+    expect_that(getPersonOnSeatDiagonallyAcross(state, event), equals(6))
 
     event = list(SEAT = 7)
     expect_that(getPersonOnNextSeat(state, event), equals(8))
-    expect_that(getPersonOnAcrossSeat(state, event), equals(3))
-    expect_that(getPersonOnDiagonalAcrossSeat(state, event), equals(4))
+    expect_that(getPersonOnSeatAcross(state, event), equals(3))
+    expect_that(getPersonOnSeatDiagonallyAcross(state, event), equals(4))
 
     event = list(SEAT = 16)
     expect_that(getPersonOnNextSeat(state, event), equals(15))
-    expect_that(getPersonOnAcrossSeat(state, event), equals(12))
-    expect_that(getPersonOnDiagonalAcrossSeat(state, event), equals(11))
+    expect_that(getPersonOnSeatAcross(state, event), equals(12))
+    expect_that(getPersonOnSeatDiagonallyAcross(state, event), equals(11))
 
     state$seats$persons = NA
     expect_that(getPersonOnNextSeat(state, event), equals(NA))
-    expect_that(getPersonOnAcrossSeat(state, event), equals(NA))
-    expect_that(getPersonOnDiagonalAcrossSeat(state, event), equals(NA))
+    expect_that(getPersonOnSeatAcross(state, event), equals(NA))
+    expect_that(getPersonOnSeatDiagonallyAcross(state, event), equals(NA))
 
     state$seats$persons = NA
     state$seats$persons[4] = 1
     state$seats$persons[15] = 4
     event = list(SEAT = 7)
     expect_that(getPersonOnNextSeat(state, event), equals(NA))
-    expect_that(getPersonOnAcrossSeat(state, event), equals(NA))
-    expect_that(getPersonOnDiagonalAcrossSeat(state, event), equals(1))
+    expect_that(getPersonOnSeatAcross(state, event), equals(NA))
+    expect_that(getPersonOnSeatDiagonallyAcross(state, event), equals(1))
 
     state$seats$persons = NA
     state$seats$persons[4] = 1
     state$seats$persons[15] = 4
     event = list(SEAT = 8)
     expect_that(getPersonOnNextSeat(state, event), equals(NA))
-    expect_that(getPersonOnAcrossSeat(state, event), equals(1))
-    expect_that(getPersonOnDiagonalAcrossSeat(state, event), equals(NA))
+    expect_that(getPersonOnSeatAcross(state, event), equals(1))
+    expect_that(getPersonOnSeatDiagonallyAcross(state, event), equals(NA))
 
 })
 
