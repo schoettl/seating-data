@@ -51,6 +51,11 @@ test_that('processing works', {
         is_true())
     expect_that(nrow(seatingData),
         equals(getNumberOfSitDownEventsAfterInitEnd(events)))
+
+    numberPersonsSittingThere = forEachRowAsVec(seatingData,
+        c('personNext','personVisAVis','personDiagonal'), countAvailableValues)
+    expect_that(seatingData$nPersonsSeatGroup,
+        is_equivalent_to(numberPersonsSittingThere))
 })
 
 test_that('hasNoSpaces works', {
