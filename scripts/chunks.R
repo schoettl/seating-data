@@ -74,20 +74,23 @@ groupRelatedSeatingData = seatingData %>%
 
 filteredData = filter(seatingData, nPersonsSeatGroup == 0)
 ggplot(filteredData, aes(seatSide)) +
-    geom_bar()
+    geom_bar() +
+    ggtitle('Preference for window/aisle seats in empty seat group')
 
 ## ---- seating-data-plot-empty-direction ----
 
 filteredData = filter(seatingData, nPersonsSeatGroup == 0)
 ggplot(filteredData, aes(seatDirection)) +
-    geom_bar()
+    geom_bar() +
+    ggtitle('Preference for facing direction in empty seat group')
 
 ## ---- seating-data-plot-position-relative ----
 
 filteredData = filter(seatingData, nPersonsSeatGroup == 1)
 filteredData$positionRelative = getPositionRelative(filteredData)
 ggplot(filteredData, aes(positionRelative)) +
-    geom_bar()
+    geom_bar() +
+    ggtitle('Preference for position relative to one other person')
 
 # joining one person: where to sit relative?
 # facets: the already sitting person: side and facing direction
