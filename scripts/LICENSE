@@ -1,0 +1,19 @@
+## Data
+
+The following license applies to the database, i.e. the contents of the data/
+directory:
+
+This data is made available under the Public Domain Dedication and License v1.0
+whose full text can be found at:
+http://www.opendatacommons.org/licenses/pddl/1.0/
+
+## Code
+
+The following license applies to the code for data processing and analysis,
+i.e. the contents of the scripts/ directory:
+
+MIT License
+
+Copyright (c) 2016 Jakob Schöttl
+
+See https://opensource.org/licenses/MIT
