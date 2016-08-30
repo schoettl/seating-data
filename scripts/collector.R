@@ -73,9 +73,9 @@ getPersonOnVisAVisSeat = function(state, event) {
     s = event$SEAT
     persons = state$seats$persons
     seats = which(!is.na(persons))
-    result = persons[getSeatGroup(seats)  == getSeatGroup(s) &
-            getSeatColumn(seats) == getSeatColumn(s) &
-            seats != s]
+    result = persons[getSeatGroup(seats)  == getSeatGroup(s)  &
+                     getSeatColumn(seats) == getSeatColumn(s) &
+                     seats != s]
     returnNAForZeroLength(result)
 }
 
@@ -84,8 +84,8 @@ getPersonOnDiagonalVisAVisSeat = function(state, event) {
     persons = state$seats$persons
     seats = which(!is.na(persons))
     result = persons[getSeatGroup(seats)  == getSeatGroup(s) &
-            getSeatRow(seats)    != getSeatRow(s) &
-            getSeatColumn(seats) != getSeatColumn(s)]
+                     getSeatRow(seats)    != getSeatRow(s)   &
+                     getSeatColumn(seats) != getSeatColumn(s)]
     returnNAForZeroLength(result)
 }
 
