@@ -95,4 +95,12 @@ ggplot(filteredData, aes(positionRelative)) +
 # joining one person: where to sit relative?
 # facets: the already sitting person: side and facing direction
 
+## ---- seating-data-plot-chosen-seat-group ----
+
+# seat group chosen by persons depending on number of persons sitting there
+
+## ---- seating-data-plot-avoid-baggage ----
+
+# seats with baggage are avoided
+
 ## ---- seating-data-plot- ----
