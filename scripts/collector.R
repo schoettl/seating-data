@@ -14,7 +14,9 @@ createCollectDataFunction = function(logEventData) {
 
     # collect data function:
     function(data, stateBefore, state, event) {
-        if (collectionStarted && isEventOfType(event, 'SIT_DOWN')) {
+        isEventType = function(x) isEventOfType(event, x)
+
+        if (collectionStarted && isEventType('SIT_DOWN')) {
             newRow = data.frame( # single-row data frame
                 survey              = event$SURVEY,
                 person              = event$PERSON,
@@ -32,7 +34,7 @@ createCollectDataFunction = function(logEventData) {
 
             data = rbind(data, newRow)
 
-        } else if (isEventOfType(event, 'INITIALIZATION_END')) {
+        } else if (isEventType('INITIALIZATION_END')) {
             collectionStarted <<- TRUE
         }
 
