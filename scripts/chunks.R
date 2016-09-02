@@ -104,8 +104,14 @@ ggplot(filteredData, aes(positionRelative)) +
     geom_bar() +
     ggtitle('Preference for position relative to one other person')
 
-# joining one person: where to sit relative?
-# facets: the already sitting person: side and facing direction
+filteredData = filter(seatingData, nPersonsSeatGroup == 1)
+filteredData$positionRelative = getPositionRelative(filteredData)
+ggplot(filteredData, aes(positionRelative)) +
+    geom_bar() +
+    # facet_grid(seatSide ~ seatDirection) +
+    # facet_wrap(~ seatDirection) +
+    facet_wrap(~ seatSide) +
+    ggtitle('Preference for position relative to one other person')
 
 ## ---- seating-data-plot-chosen-seat-group ----
 
