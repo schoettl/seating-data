@@ -23,6 +23,10 @@ createCollectDataFunction = function(logEventData) {
                 seat                = event$SEAT,
                 nPersonsCompartment = getNumberOfPersonsInCompartment(stateBefore),
                 nPersonsSeatGroup   = getNumberOfPersonsInSeatGroup(stateBefore, event),
+                nPersonsSeatGroup1  = getNumberOfPersonsInSeatGroupX(stateBefore, 1),
+                nPersonsSeatGroup2  = getNumberOfPersonsInSeatGroupX(stateBefore, 2),
+                nPersonsSeatGroup3  = getNumberOfPersonsInSeatGroupX(stateBefore, 3),
+                nPersonsSeatGroup4  = getNumberOfPersonsInSeatGroupX(stateBefore, 4),
                 seatSide            = getSeatSide(event),
                 seatDirection       = getSeatFacingDirection(stateBefore, event),
                 direction           = getCurrentDrivingDirection(stateBefore),
@@ -59,7 +63,11 @@ getNumberOfPersonsInCompartment = function(stateBefore) {
 
 getNumberOfPersonsInSeatGroup = function(stateBefore, event) {
     seatGroup = getSeatGroup(event$SEAT)
-    otherPersonsSeats = which(!is.na(stateBefore$seats$persons))
+    getNumberOfPersonsInSeatGroupX(stateBefore, seatGroup)
+}
+
+getNumberOfPersonsInSeatGroupX = function(state, seatGroup) {
+    otherPersonsSeats = which(!is.na(state$seats$persons))
     seatGroups = sapply(otherPersonsSeats, getSeatGroup)
     length(which(seatGroups == seatGroup))
 }

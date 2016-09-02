@@ -7,6 +7,7 @@ library(lubridate)
 library(xtable)
 library(knitr)
 library(stringr)
+library(testthat)
 
 source('seat-info.R')
 source('state.R')

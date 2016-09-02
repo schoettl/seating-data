@@ -10,6 +10,36 @@ test_that('number of persons is counted correctly', {
     expect_that(getNumberOfPersonsInSeatGroup(state, event), equals(2))
 })
 
+test_that('getting number of persons in seat group works', {
+    state = newState()
+
+    expectedCounts = rep(0, 4)
+    for (i in 1:4)
+        expect_that(getNumberOfPersonsInSeatGroupX(state, i), equals(expectedCounts[i]))
+
+    state$seats$persons[1:2] = 1:2
+    expectedCounts = c(2,0,0,0)
+    for (i in 1:4)
+        expect_that(getNumberOfPersonsInSeatGroupX(state, i), equals(expectedCounts[i]))
+
+    state$seats$persons[7] = 7
+    expectedCounts = c(2,1,0,0)
+    for (i in 1:4)
+        expect_that(getNumberOfPersonsInSeatGroupX(state, i), equals(expectedCounts[i]))
+
+    state$seats$persons[9:10] = 9:10
+    state$seats$persons[13] = 13
+    expectedCounts = c(2,1,3,0)
+    for (i in 1:4)
+        expect_that(getNumberOfPersonsInSeatGroupX(state, i), equals(expectedCounts[i]))
+
+    state$seats$persons = 1:16
+    expectedCounts = rep(4, 4)
+    for (i in 1:4)
+        expect_that(getNumberOfPersonsInSeatGroupX(state, i), equals(expectedCounts[i]))
+
+})
+
 test_that('helper function getFirstValueOrNA works', {
     expect_that(getFirstValueOrNA(c(5)), equals(5))
     expect_that(getFirstValueOrNA(c(NA)), equals(NA))
