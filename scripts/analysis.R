@@ -11,6 +11,7 @@ library(stringr)
 source('seat-info.R')
 source('state.R')
 source('collector.R')
+source('validity.R')
 
 # save working directory for later
 # (needed when used with knitr)

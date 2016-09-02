@@ -6,6 +6,19 @@ surveyData   = readCsvFile('SURVEY')
 personData   = readCsvFile('PERSON')
 logEventData = readCsvFile('LOG_EVENT')
 
+## ---- seating-check-data ----
+
+# Convert TIME from factor to string to enable check for monotonicity
+logEventData = mutate(logEventData, TIME = as.character(TIME))
+
+test_that('data is valid', {
+    expect_that(surveyData, has_no_duplicate_ids())
+    expect_that(personData, has_no_duplicate_ids())
+    expect_that(logEventData, has_monotonic_increasing_column('ID'))
+    expect_that(logEventData,
+                has_monotonic_increasing_column_per_survey('TIME'))
+})
+
 ## ---- seating-keep-raw-data ----
 
 surveyRawData   = surveyData
@@ -51,7 +64,6 @@ logEventData = arrange(logEventData, ID, TIME)
 ## ---- seating-generate-seating-data ----
 
 seatingData = generateMoreData(surveyData, logEventData)
-
 
 ## ---- seating-survey-table ----
 
