@@ -115,7 +115,26 @@ ggplot(filteredData, aes(positionRelative)) +
 
 ## ---- seating-data-plot-chosen-seat-group ----
 
-# seat group chosen by persons depending on number of persons sitting there
+bins = rep(0, 4)
+
+# This function mutates the global variable bins, a vector of 4 elements.
+binChosenSeatGroup = function(x) {
+    chosenSeatGroup = x$seatGroup
+    columns = paste0('nPersonsSeatGroup', 1:4)
+    counts = as.numeric(x[columns])
+    df = data.frame(count = counts)
+    df = mutate(df, rank = dense_rank(count))
+    bins[df$rank[chosenSeatGroup]] <<- bins[df$rank[chosenSeatGroup]] + 1
+}
+
+seatingData = mutate(seatingData, seatGroup = getSeatGroup(seat))
+invisible(adply(seatingData, 1, binChosenSeatGroup))
+
+result = data.frame(count = bins, rank = 1:length(bins))
+
+ggplot(result, aes(x = rank, y = count)) +
+    geom_bar(stat = 'identity') +
+    ggtitle('Preference for seat groups depending on the number of passengers sitting there')
 
 ## ---- seating-data-plot-avoid-baggage ----
 
