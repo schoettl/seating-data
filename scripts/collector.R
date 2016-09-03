@@ -27,6 +27,7 @@ createCollectDataFunction = function(logEventData) {
                 nPersonsSeatGroup2  = getNumberOfPersonsInSeatGroupX(stateBefore, 2),
                 nPersonsSeatGroup3  = getNumberOfPersonsInSeatGroupX(stateBefore, 3),
                 nPersonsSeatGroup4  = getNumberOfPersonsInSeatGroupX(stateBefore, 4),
+                seatGroup           = getSeatGroup(event$SEAT),
                 seatSide            = getSeatSide(event),
                 seatDirection       = getSeatFacingDirection(stateBefore, event),
                 direction           = getCurrentDrivingDirection(stateBefore),

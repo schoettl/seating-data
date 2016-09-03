@@ -75,3 +75,12 @@ test_that('hasNoSpaces works', {
     expect_that(getPositionRelative(df),
             equals(c('NEXT', 'ACROSS', 'DIAGONAL', NA)))
 })
+
+test_that('name and convert col to factor work', {
+    strings = paste0('str', 1:5)
+    df = data.frame(col1 = 1:5, col2 = strings)
+    df = nameLastColumnAndConvertToFactor(df, 'test')
+    expect_that(ncol(df), equals(2))
+    expect_that(colnames(df)[2], equals('test'))
+    expect_that(df[[ncol(df)]], is_identical_to(factor(strings)))
+})

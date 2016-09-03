@@ -113,28 +113,60 @@ ggplot(filteredData, aes(positionRelative)) +
     facet_wrap(~ seatSide) +
     ggtitle('Preference for position relative to one other person')
 
-## ---- seating-data-plot-chosen-seat-group ----
+## ---- seating-data-plot-chosen-seat-group-min ----
 
-bins = rep(0, 4)
+# How often do people choose the most sparse seat group?
 
-# This function mutates the global variable bins, a vector of 4 elements.
-binChosenSeatGroup = function(x) {
+getChosenSeatGroup = function(x) {
     chosenSeatGroup = x$seatGroup
     columns = paste0('nPersonsSeatGroup', 1:4)
     counts = as.numeric(x[columns])
-    df = data.frame(count = counts)
-    df = mutate(df, rank = dense_rank(count))
-    bins[df$rank[chosenSeatGroup]] <<- bins[df$rank[chosenSeatGroup]] + 1
+    if (length(unique(counts)) == 1) # same counts in all seat groups
+        return(NA)
+    ranks = rank(counts, ties.method = 'min')
+    # Ranking of chosen seat group is minimal?
+    if (ranks[chosenSeatGroup] == min(ranks)) {
+        # TODO bad name: it's not necessarily sparse... it's just more sparse than other ^^
+        return('SPARSE') # sparse seat group
+    } else {
+        return('OTHER')
+    }
 }
 
-seatingData = mutate(seatingData, seatGroup = getSeatGroup(seat))
-invisible(adply(seatingData, 1, binChosenSeatGroup))
+seatingData = adply(seatingData, 1, getChosenSeatGroup)
+seatingData = nameLastColumnAndConvertToFactor(seatingData, 'seatGroupOccupancy')
+filteredData = filter(seatingData, !is.na(seatGroupOccupancy))
 
-result = data.frame(count = bins, rank = 1:length(bins))
-
-ggplot(result, aes(x = rank, y = count)) +
-    geom_bar(stat = 'identity') +
+ggplot(filteredData, aes(seatGroupOccupancy)) +
+    geom_bar() +
     ggtitle('Preference for seat groups depending on the number of passengers sitting there')
+
+## ---- seating-data-plot-chosen-seat-group-01vs23 ----
+
+# How often do people choose a seat group with 0 or 1 others
+# as opposed to a seat group with 2 or 3 others?
+
+getChosenSeatGroup01vs23 = function(x) {
+    chosenSeatGroup = x$seatGroup
+    columns = paste0('nPersonsSeatGroup', 1:4)
+    counts = as.numeric(x[columns])
+    if (!any(0:1 %in% counts) || !any(2:3 %in% counts)) # NA if there are no seat groups to compare with
+        return(NA)
+    if (counts[chosenSeatGroup] %in% 0:1) {
+        return('0OR1')
+    } else {
+        return('2OR3')
+    }
+}
+
+seatingData = adply(seatingData, 1, getChosenSeatGroup01vs23)
+seatingData = nameLastColumnAndConvertToFactor(seatingData, 'seatGroup01vs23')
+filteredData = filter(seatingData, !is.na(seatGroup01vs23))
+
+ggplot(filteredData, aes(seatGroup01vs23)) +
+    geom_bar() +
+    ggtitle('Preference for seat groups depending on the number of passengers sitting there')
+
 
 ## ---- seating-data-plot-avoid-baggage ----
 

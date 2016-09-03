@@ -139,3 +139,9 @@ getPositionRelative = function(data) {
     ifelse(!is.na(data$personAcross),   'ACROSS',
     ifelse(!is.na(data$personDiagonal), 'DIAGONAL', NA)))
 }
+
+nameLastColumnAndConvertToFactor = function(data, newColumnName) {
+    colnames(data)[ncol(data)] = newColumnName
+    data[[newColumnName]] = factor(data[[newColumnName]])
+    data
+}
