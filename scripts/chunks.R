@@ -96,6 +96,14 @@ ggplot(filteredData, aes(seatDirection)) +
     geom_bar() +
     ggtitle('Preference for facing direction in empty seat group')
 
+## ---- seating-data-plot-empty-side-direction ----
+
+filteredData = filter(seatingData, nPersonsSeatGroup == 0)
+filteredData = mutate(filteredData, seatSideDirection = paste(seatSide, seatDirection, sep = '_'))
+ggplot(filteredData, aes(seatSideDirection)) +
+    geom_bar() +
+    ggtitle('Seat preference in empty seat group')
+
 ## ---- seating-data-plot-position-relative ----
 
 filteredData = filter(seatingData, nPersonsSeatGroup == 1)
