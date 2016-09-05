@@ -146,3 +146,13 @@ test_that('current driving direction forward/backward works', {
     state = list(direction = 'BACKWARD')
     expect_that(getCurrentDrivingDirection(state), equals('BACKWARD'))
 })
+
+test_that('getting group from person works', {
+    event = data.frame(PERSON = 11)
+
+    personData = data.frame(ID = 11:15, M_GROUP = 1:5)
+    expect_that(getGroupOfPerson(event, personData), equals(1))
+
+    personData = data.frame(ID = 11:15, M_GROUP = c(NA, 2:5))
+    expect_that(is.na(getGroupOfPerson(event, personData)), is_true())
+})

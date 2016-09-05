@@ -7,9 +7,8 @@ SEAT_NUMBERS = 1:16
 # Otherwise, rbind makes problems with character-factor conversion:
 # The first string is converted to 1-level factor,
 # the next different string has a "invalid factor level".
-createCollectDataFunction = function(logEventData) {
+createCollectDataFunction = function(logEventData, personData) {
     # closure variables:
-    allEvents = logEventData
     collectionStarted = FALSE
 
     # collect data function:
@@ -21,6 +20,7 @@ createCollectDataFunction = function(logEventData) {
                 survey              = event$SURVEY,
                 person              = event$PERSON,
                 seat                = event$SEAT,
+                group               = getGroupOfPerson(event, personData),
                 nPersonsCompartment = getNumberOfPersonsInCompartment(stateBefore),
                 nPersonsSeatGroup   = getNumberOfPersonsInSeatGroup(stateBefore, event),
                 nPersonsSeatGroup1  = getNumberOfPersonsInSeatGroupX(stateBefore, 1),
@@ -112,4 +112,8 @@ getSeatFacingDirection = function(state, event) {
 
 getCurrentDrivingDirection = function(state) {
     state$direction
+}
+
+getGroupOfPerson = function(event, personData) {
+    personData[personData$ID == event$PERSON, ]$M_GROUP
 }
