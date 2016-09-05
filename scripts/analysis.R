@@ -145,3 +145,7 @@ nameLastColumnAndConvertToFactor = function(data, newColumnName) {
     data[[newColumnName]] = factor(data[[newColumnName]])
     data
 }
+
+filterDataNoGroupAndNPersonsSeatGroup = function(seatingData, nOtherPersons) {
+    filter(seatingData, nPersonsSeatGroup == nOtherPersons & is.na(group))
+}

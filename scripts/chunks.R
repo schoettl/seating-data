@@ -84,21 +84,21 @@ groupRelatedSeatingData = seatingData %>%
 
 ## ---- seating-data-plot-empty-side ----
 
-filteredData = filter(seatingData, nPersonsSeatGroup == 0)
+filteredData = filterDataNoGroupAndNPersonsSeatGroup(seatingData, 0)
 ggplot(filteredData, aes(seatSide)) +
     geom_bar() +
     ggtitle('Preference for window/aisle seats in empty seat group')
 
 ## ---- seating-data-plot-empty-direction ----
 
-filteredData = filter(seatingData, nPersonsSeatGroup == 0)
+filteredData = filterDataNoGroupAndNPersonsSeatGroup(seatingData, 0)
 ggplot(filteredData, aes(seatDirection)) +
     geom_bar() +
     ggtitle('Preference for facing direction in empty seat group')
 
 ## ---- seating-data-plot-empty-side-direction ----
 
-filteredData = filter(seatingData, nPersonsSeatGroup == 0)
+filteredData = filterDataNoGroupAndNPersonsSeatGroup(seatingData, 0)
 filteredData = mutate(filteredData, seatSideDirection = paste(seatSide, seatDirection, sep = '_'))
 ggplot(filteredData, aes(seatSideDirection)) +
     geom_bar() +
@@ -106,17 +106,16 @@ ggplot(filteredData, aes(seatSideDirection)) +
 
 ## ---- seating-data-plot-position-relative ----
 
-filteredData = filter(seatingData, nPersonsSeatGroup == 1)
+filteredData = filterDataNoGroupAndNPersonsSeatGroup(seatingData, 1)
 filteredData$positionRelative = getPositionRelative(filteredData)
 ggplot(filteredData, aes(positionRelative)) +
     geom_bar() +
     ggtitle('Preference for position relative to one other person')
 
-filteredData = filter(seatingData, nPersonsSeatGroup == 1)
+filteredData = filterDataNoGroupAndNPersonsSeatGroup(seatingData, 1)
 filteredData$positionRelative = getPositionRelative(filteredData)
 ggplot(filteredData, aes(positionRelative)) +
     geom_bar() +
-    # facet_grid(seatSide ~ seatDirection) +
     # facet_wrap(~ seatDirection) +
     facet_wrap(~ seatSide) +
     ggtitle('Preference for position relative to one other person')
@@ -143,7 +142,7 @@ getChosenSeatGroup = function(x) {
 
 seatingData = adply(seatingData, 1, getChosenSeatGroup)
 seatingData = nameLastColumnAndConvertToFactor(seatingData, 'seatGroupOccupancy')
-filteredData = filter(seatingData, !is.na(seatGroupOccupancy))
+filteredData = filter(seatingData, !is.na(seatGroupOccupancy) & is.na(group))
 
 ggplot(filteredData, aes(seatGroupOccupancy)) +
     geom_bar() +
@@ -169,7 +168,7 @@ getChosenSeatGroup01vs23 = function(x) {
 
 seatingData = adply(seatingData, 1, getChosenSeatGroup01vs23)
 seatingData = nameLastColumnAndConvertToFactor(seatingData, 'seatGroup01vs23')
-filteredData = filter(seatingData, !is.na(seatGroup01vs23))
+filteredData = filter(seatingData, !is.na(seatGroup01vs23) & is.na(group))
 
 ggplot(filteredData, aes(seatGroup01vs23)) +
     geom_bar() +
