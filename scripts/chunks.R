@@ -86,14 +86,14 @@ groupRelatedSeatingData = seatingData %>%
 
 filteredData = filterDataNoGroupAndNPersonsSeatGroup(seatingData, 0)
 ggplot(filteredData, aes(seatSide)) +
-    geom_bar() +
+    geom_bar(width = 0.1) +
     ggtitle('Preference for window/aisle seats in empty seat group')
 
 ## ---- seating-data-plot-empty-direction ----
 
 filteredData = filterDataNoGroupAndNPersonsSeatGroup(seatingData, 0)
 ggplot(filteredData, aes(seatDirection)) +
-    geom_bar() +
+    geom_bar(width = 0.1) +
     ggtitle('Preference for facing direction in empty seat group')
 
 ## ---- seating-data-plot-empty-side-direction ----
@@ -101,7 +101,7 @@ ggplot(filteredData, aes(seatDirection)) +
 filteredData = filterDataNoGroupAndNPersonsSeatGroup(seatingData, 0)
 filteredData = mutate(filteredData, seatSideDirection = paste(seatSide, seatDirection, sep = '_'))
 ggplot(filteredData, aes(seatSideDirection)) +
-    geom_bar() +
+    geom_bar(width = 0.1) +
     ggtitle('Seat preference in empty seat group')
 
 ## ---- seating-data-plot-position-relative ----
@@ -109,13 +109,13 @@ ggplot(filteredData, aes(seatSideDirection)) +
 filteredData = filterDataNoGroupAndNPersonsSeatGroup(seatingData, 1)
 filteredData$positionRelative = getPositionRelative(filteredData)
 ggplot(filteredData, aes(positionRelative)) +
-    geom_bar() +
+    geom_bar(width = 0.1) +
     ggtitle('Preference for position relative to one other person')
 
 filteredData = filterDataNoGroupAndNPersonsSeatGroup(seatingData, 1)
 filteredData$positionRelative = getPositionRelative(filteredData)
 ggplot(filteredData, aes(positionRelative)) +
-    geom_bar() +
+    geom_bar(width = 0.1) +
     # facet_wrap(~ seatDirection) +
     facet_wrap(~ seatSide) +
     ggtitle('Preference for position relative to one other person')
@@ -145,7 +145,7 @@ seatingData = nameLastColumnAndConvertToFactor(seatingData, 'seatGroupOccupancy'
 filteredData = filter(seatingData, !is.na(seatGroupOccupancy) & is.na(group))
 
 ggplot(filteredData, aes(seatGroupOccupancy)) +
-    geom_bar() +
+    geom_bar(width = 0.1) +
     ggtitle('Preference for seat groups depending on the number of passengers sitting there')
 
 ## ---- seating-data-plot-chosen-seat-group-01vs23 ----
@@ -171,7 +171,7 @@ seatingData = nameLastColumnAndConvertToFactor(seatingData, 'seatGroup01vs23')
 filteredData = filter(seatingData, !is.na(seatGroup01vs23) & is.na(group))
 
 ggplot(filteredData, aes(seatGroup01vs23)) +
-    geom_bar() +
+    geom_bar(width = 0.1) +
     ggtitle('Preference for seat groups depending on the number of passengers sitting there')
 
 
