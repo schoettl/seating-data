@@ -112,13 +112,23 @@ ggplot(filteredData, aes(positionRelative)) +
     geom_bar(width = 0.1) +
     ggtitle('Preference for position relative to one other person')
 
+## ---- seating-data-plot-position-relative-window ----
+
 filteredData = filterDataNoGroupAndNPersonsSeatGroup(seatingData, 1)
 filteredData$positionRelative = getPositionRelative(filteredData)
 ggplot(filteredData, aes(positionRelative)) +
     geom_bar(width = 0.1) +
-    # facet_wrap(~ seatDirection) +
     facet_wrap(~ seatSide) +
-    ggtitle('Preference for position relative to one other person')
+    ggtitle('Preference for position relative to one other person splitted by chosen seat')
+
+## ---- seating-data-plot-position-relative-forward ----
+
+filteredData = filterDataNoGroupAndNPersonsSeatGroup(seatingData, 1)
+filteredData$positionRelative = getPositionRelative(filteredData)
+ggplot(filteredData, aes(positionRelative)) +
+    geom_bar(width = 0.1) +
+    facet_wrap(~ seatDirection) +
+    ggtitle('Preference for position relative to one other person splitted by chosen seat')
 
 ## ---- seating-data-plot-chosen-seat-group-min ----
 
@@ -133,10 +143,9 @@ getChosenSeatGroup = function(x) {
     ranks = rank(counts, ties.method = 'min')
     # Ranking of chosen seat group is minimal?
     if (ranks[chosenSeatGroup] == min(ranks)) {
-        # TODO bad name: it's not necessarily sparse... it's just more sparse than other ^^
-        return('SPARSE') # sparse seat group
+        return('SMALLEST_NUMBER') # seat group with lowest number of other persons
     } else {
-        return('OTHER')
+        return('OTHER_NUMBER')
     }
 }
 
@@ -146,7 +155,7 @@ filteredData = filter(seatingData, !is.na(seatGroupOccupancy) & is.na(group))
 
 ggplot(filteredData, aes(seatGroupOccupancy)) +
     geom_bar(width = 0.1) +
-    ggtitle('Preference for seat groups depending on the number of passengers sitting there')
+    ggtitle('Preference for seat groups depending within a compartment')
 
 ## ---- seating-data-plot-chosen-seat-group-01vs23 ----
 
@@ -160,9 +169,9 @@ getChosenSeatGroup01vs23 = function(x) {
     if (!any(0:1 %in% counts) || !any(2:3 %in% counts)) # NA if there are no seat groups to compare with
         return(NA)
     if (counts[chosenSeatGroup] %in% 0:1) {
-        return('0OR1')
+        return('0_OR_1')
     } else {
-        return('2OR3')
+        return('2_OR_3')
     }
 }
 
@@ -172,7 +181,7 @@ filteredData = filter(seatingData, !is.na(seatGroup01vs23) & is.na(group))
 
 ggplot(filteredData, aes(seatGroup01vs23)) +
     geom_bar(width = 0.1) +
-    ggtitle('Preference for seat groups depending on the number of passengers sitting there')
+    ggtitle('Preference for seat groups within a compartment')
 
 
 ## ---- seating-data-plot-avoid-baggage ----

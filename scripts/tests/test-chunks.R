@@ -18,25 +18,25 @@ test_that('minimum method to analyze seat group choice works', {
     }
 
     row = newSeatGroupChoiceTestRow(2, c(3,1,2,3))
-    expect_that(getChosenSeatGroup(row), equals('SPARSE'))
+    expect_that(getChosenSeatGroup(row), equals('SMALLEST_NUMBER'))
 
     for (i in 1:2) {
 
         row = newSeatGroupChoiceTestRow(i, c(1,1,2,3))
-        expect_that(getChosenSeatGroup(row), equals('SPARSE'))
+        expect_that(getChosenSeatGroup(row), equals('SMALLEST_NUMBER'))
 
         row = newSeatGroupChoiceTestRow(i, c(2,2,2,3))
-        expect_that(getChosenSeatGroup(row), equals('SPARSE'))
+        expect_that(getChosenSeatGroup(row), equals('SMALLEST_NUMBER'))
 
     }
 
     for (i in 3:4) {
 
         row = newSeatGroupChoiceTestRow(i, c(1,1,2,3))
-        expect_that(getChosenSeatGroup(row), equals('OTHER'))
+        expect_that(getChosenSeatGroup(row), equals('OTHER_NUMBER'))
 
         row = newSeatGroupChoiceTestRow(i, c(1,2,2,3))
-        expect_that(getChosenSeatGroup(row), equals('OTHER'))
+        expect_that(getChosenSeatGroup(row), equals('OTHER_NUMBER'))
 
     }
 
@@ -52,12 +52,12 @@ test_that('0:1 or 2:3 method to analyze seat group choice works', {
 
     for (i in 1:2) {
         row = newSeatGroupChoiceTestRow(i, 0:3)
-        expect_that(getChosenSeatGroup01vs23(row), equals('0OR1'))
+        expect_that(getChosenSeatGroup01vs23(row), equals('0_OR_1'))
     }
 
     for (i in 3:4) {
         row = newSeatGroupChoiceTestRow(i, 0:3)
-        expect_that(getChosenSeatGroup01vs23(row), equals('2OR3'))
+        expect_that(getChosenSeatGroup01vs23(row), equals('2_OR_3'))
     }
 
 })
