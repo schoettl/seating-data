@@ -18,6 +18,10 @@ source('validity.R')
 # (needed when used with knitr)
 workingDirectory = getwd()
 
+getDirectionString = function(forward) ifelse(forward, 'FORWARD', 'BACKWARD')
+
+getSideString = function(window) ifelse(window, 'WINDOW', 'AISLE')
+
 getCsvFileName = function(baseName) {
     paste0(workingDirectory, '/../data/', baseName, '.csv')
 }
@@ -147,6 +151,23 @@ getTheOtherPerson = function(data) {
     apply(persons, 1, function(x) {
         getFirstValueOrNA(x)
     })
+}
+
+getTheOtherPersonSide = function(x) {
+    if (x$seatSide == 'WINDOW')
+        window = !is.na(x$personAcross)
+    else
+        window = is.na(x$personAcross)
+    getSideString(window)
+}
+
+getTheOtherPersonDirection = function(x) {
+    # getSeatInformation(x$theOtherPerson, x$direction)$direction)
+    if (x$seatDirection == 'FORWARD')
+        direction = !is.na(x$personNext)
+    else
+        direction = is.na(x$personNext)
+    getDirectionString(direction)
 }
 
 nameLastColumnAndConvertToFactor = function(data, newColumnName) {

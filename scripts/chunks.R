@@ -137,6 +137,21 @@ ggplot(filteredData, aes(positionRelative)) +
     facet_wrap(~ seatDirection) +
     ggtitle('Preference for position relative to one other person splitted by chosen seat')
 
+## ---- seating-data-plot-position-relative-4 ----
+
+filteredData = filterDataNoGroupAndNPersonsSeatGroup(seatingData, 1)
+filteredData$positionRelative = getPositionRelative(filteredData)
+
+filteredData = adply(filteredData, 1, getTheOtherPersonSide)
+filteredData = nameLastColumnAndConvertToFactor(filteredData, 'theOtherPersonSide')
+filteredData = adply(filteredData, 1, getTheOtherPersonDirection)
+filteredData = nameLastColumnAndConvertToFactor(filteredData, 'theOtherPersonDirection')
+
+ggplot(filteredData, aes(positionRelative)) +
+    geom_bar(width = 0.1) +
+    facet_grid(theOtherPersonDirection ~ theOtherPersonSide) +
+    ggtitle('Preference for position relative to one other person depending on their position')
+
 ## ---- seating-data-plot-chosen-seat-group-min ----
 
 # How often do people choose the most sparse seat group?

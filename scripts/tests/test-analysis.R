@@ -13,6 +13,24 @@ getNumberOfSitDownEventsAfterInitEnd = function(events) {
     result
 }
 
+makeTestData = function(seatSide, seatDirection, relativePosition) {
+    pNext   = NA
+    pAcross = NA
+    pDiag   = NA
+    if      (relativePosition == 'next')
+        pNext = 1
+    else if (relativePosition == 'across')
+        pAcross = 1
+    else if (relativePosition == 'diagonal')
+        pDiag = 1
+
+    data.frame(seatSide = seatSide,
+               seatDirection = seatDirection,
+               personNext = pNext,
+               personAcross = pAcross,
+               personDiagonal = pDiag)
+}
+
 test_that('removing duplicate init events works', {
     initEndEvType = 'INITIALIZATION_END'
     data = matrix(
@@ -87,7 +105,39 @@ test_that('name and convert col to factor work', {
 
 test_that('get the other person works', {
     data = data.frame(personNext     = c(5,6,NA,NA),
-                      personAcross  = c(NA,NA,7,NA),
+                      personAcross   = c(NA,NA,7,NA),
                       personDiagonal = c(NA,NA,NA,8))
     expect_that(getTheOtherPerson(data), equals(5:8))
+})
+
+test_that('get the other person side works', {
+    x = makeTestData('WINDOW', NA, 'next')
+    expect_that(getTheOtherPersonSide(x), equals('AISLE'))
+    x = makeTestData('WINDOW', NA, 'diagonal')
+    expect_that(getTheOtherPersonSide(x), equals('AISLE'))
+    x = makeTestData('WINDOW', NA, 'across')
+    expect_that(getTheOtherPersonSide(x), equals('WINDOW'))
+
+    x = makeTestData('AISLE', NA, 'next')
+    expect_that(getTheOtherPersonSide(x), equals('WINDOW'))
+    x = makeTestData('AISLE', NA, 'diagonal')
+    expect_that(getTheOtherPersonSide(x), equals('WINDOW'))
+    x = makeTestData('AISLE', NA, 'across')
+    expect_that(getTheOtherPersonSide(x), equals('AISLE'))
+})
+
+test_that('get the other person direction works', {
+    x = makeTestData(NA, 'FORWARD', 'next')
+    expect_that(getTheOtherPersonDirection(x), equals('FORWARD'))
+    x = makeTestData(NA, 'FORWARD', 'diagonal')
+    expect_that(getTheOtherPersonDirection(x), equals('BACKWARD'))
+    x = makeTestData(NA, 'FORWARD', 'across')
+    expect_that(getTheOtherPersonDirection(x), equals('BACKWARD'))
+
+    x = makeTestData(NA, 'BACKWARD', 'next')
+    expect_that(getTheOtherPersonDirection(x), equals('BACKWARD'))
+    x = makeTestData(NA, 'BACKWARD', 'diagonal')
+    expect_that(getTheOtherPersonDirection(x), equals('FORWARD'))
+    x = makeTestData(NA, 'BACKWARD', 'across')
+    expect_that(getTheOtherPersonDirection(x), equals('FORWARD'))
 })
