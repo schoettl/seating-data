@@ -17,7 +17,7 @@ test_that('is_invariant_except works', {
 
     x$a = 2
     expect_that(x, is_invariant_except(original, c('a')))
-    
+
     x$b = 'baz'
     # fail expected:
     # expect_that(x, is_invariant_except(original, c('a')))
