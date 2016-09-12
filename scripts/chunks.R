@@ -82,6 +82,13 @@ groupRelatedSeatingData = seatingData %>%
     inner_join(personData, by = c('person' = 'ID')) %>%
     filter(!is.na(M_GROUP))
 
+## ---- seating-data-plot-groups ----
+
+seatingData$inGroup = !is.na(seatingData$group)
+ggplot(seatingData, aes(inGroup)) +
+    geom_bar(width = 0.1) +
+    ggtitle('Number of passengers traveling alone or in groups')
+
 ## ---- seating-data-plot-empty-side ----
 
 filteredData = filterDataNoGroupAndNPersonsSeatGroup(seatingData, 0)
