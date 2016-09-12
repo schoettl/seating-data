@@ -86,10 +86,6 @@ checkWindow = function(expected, seatNumber) {
     checkEquals(side, result$side)
 }
 
-getDirectionString = function(forward) ifelse(forward, 'FORWARD', 'BACKWARD')
-
-getSideString = function(window) ifelse(window, 'WINDOW', 'AISLE')
-
 test_that('getting the seat group number works', {
     expect_that(getSeatGroup(0), throws_error())
 
