@@ -235,9 +235,8 @@ ggplot(filteredData, aes(seatGroupEmptyVsOther)) +
 ## ---- seating-data-plot-2other-side ----
 
 filteredData = filterDataNoGroupAndNPersonsSeatGroup(seatingData, 2)
-# => diagonal or next seat must be available (for choice of side)
-# => seat across must be occupied
-filteredData = filter(filteredData, !is.na(personAcross))
+# only consider decisions where there was no choice between the facing direction
+filteredData = filter(filteredData, is.na(personNext))
 ggplot(filteredData, aes(seatSide)) +
     geom_bar(width = 0.1) +
     ggtitle('Preference for window/aisle seats in seat group with two others')
@@ -245,9 +244,8 @@ ggplot(filteredData, aes(seatSide)) +
 ## ---- seating-data-plot-2other-direction ----
 
 filteredData = filterDataNoGroupAndNPersonsSeatGroup(seatingData, 2)
-# => one opposite seat must be available (for choice of facing direction)
-# => next seat must be occupied
-filteredData = filter(filteredData, !is.na(personNext))
+# only consider decisions where there was no choice between the side
+filteredData = filter(filteredData, is.na(personAcross))
 ggplot(filteredData, aes(seatDirection)) +
     geom_bar(width = 0.1) +
     ggtitle('Preference for facing direction in seat group with two others')
