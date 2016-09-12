@@ -84,3 +84,10 @@ test_that('name and convert col to factor work', {
     expect_that(colnames(df)[2], equals('test'))
     expect_that(df[[ncol(df)]], is_identical_to(factor(strings)))
 })
+
+test_that('get the other person works', {
+    data = data.frame(personNext     = c(5,6,NA,NA),
+                      personAcross  = c(NA,NA,7,NA),
+                      personDiagonal = c(NA,NA,NA,8))
+    expect_that(getTheOtherPerson(data), equals(5:8))
+})

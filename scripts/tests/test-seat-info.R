@@ -52,10 +52,13 @@ test.getSeatInformation.BackwardForward = function() {
 }
 
 checkForwardFacing = function(expected, seatNumber, forward) {
-    direction = ifelse(forward, 'FORWARD', 'BACKWARD')
+    direction = getDirectionString(forward)
     result = getSeatInformation(seatNumber, direction)
     checkEquals(expected,  result$forwardFacing)
     checkEquals(expected, !result$backwardFacing)
+
+    seatDirection = getDirectionString(result$forwardFacing)
+    checkEquals(seatDirection, result$direction)
 }
 
 test.getSeatInformation.WindowAisle = function() {
@@ -73,10 +76,19 @@ checkWindow = function(expected, seatNumber) {
     result = getSeatInformation(seatNumber, 'FORWARD')
     checkEquals(expected,  result$windowSeat)
     checkEquals(expected, !result$aisleSeat)
+    side = getSideString(result$windowSeat)
+    checkEquals(side, result$side)
+
     result = getSeatInformation(seatNumber, 'BACKWARD')
     checkEquals(expected,  result$windowSeat)
     checkEquals(expected, !result$aisleSeat)
+    side = getSideString(result$windowSeat)
+    checkEquals(side, result$side)
 }
+
+getDirectionString = function(forward) ifelse(forward, 'FORWARD', 'BACKWARD')
+
+getSideString = function(window) ifelse(window, 'WINDOW', 'AISLE')
 
 test_that('getting the seat group number works', {
     expect_that(getSeatGroup(0), throws_error())

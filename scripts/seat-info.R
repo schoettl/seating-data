@@ -42,11 +42,13 @@ getSeatInformation = function(seatNumber, drivingDirection) {
 
     result$windowSeat = seatColumn %in% c(1, 4)
     result$aisleSeat  = !result$windowSeat
+    result$side = ifelse(result$windowSeat, 'WINDOW', 'AISLE')
 
     backward = (drivingDirection == 'BACKWARD')
     result$forwardFacing = xor(backward,
         seatRow %in% c(2, 4))
     result$backwardFacing = !result$forwardFacing
+    result$direction = ifelse(result$forwardFacing, 'FORWARD', 'BACKWARD')
 
     result$row    = seatRow
     result$column = seatColumn

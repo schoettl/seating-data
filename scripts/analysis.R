@@ -140,6 +140,15 @@ getPositionRelative = function(data) {
     ifelse(!is.na(data$personDiagonal), 'DIAGONAL', NA)))
 }
 
+# To be used only for filtered events where a person sits down to a seat group
+# at which only one other person is sitting.
+getTheOtherPerson = function(data) {
+    persons = data.matrix(data[c('personNext', 'personAcross', 'personDiagonal')])
+    apply(persons, 1, function(x) {
+        getFirstValueOrNA(x)
+    })
+}
+
 nameLastColumnAndConvertToFactor = function(data, newColumnName) {
     colnames(data)[ncol(data)] = newColumnName
     data[[newColumnName]] = factor(data[[newColumnName]])
