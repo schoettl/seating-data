@@ -162,7 +162,7 @@ filteredData = filter(seatingData, !is.na(seatGroupOccupancy) & is.na(group))
 
 ggplot(filteredData, aes(seatGroupOccupancy)) +
     geom_bar(width = 0.1) +
-    ggtitle('Preference for seat groups depending within a compartment')
+    ggtitle('Preference for seat groups within a compartment')
 
 ## ---- seating-data-plot-chosen-seat-group-01vs23 ----
 
