@@ -190,9 +190,31 @@ ggplot(filteredData, aes(seatGroup01vs23)) +
     geom_bar(width = 0.1) +
     ggtitle('Preference for seat groups within a compartment')
 
+## ---- seating-data-plot-chosen-seat-group-empty ----
 
-## ---- seating-data-plot-avoid-baggage ----
+# How often do people prefer an empty seat group to other seat groups?
 
-# seats with baggage are avoided
+getChosenSeatGroupEmpty = function(x) {
+    chosenSeatGroup = x$seatGroup
+    columns = paste0('nPersonsSeatGroup', 1:4)
+    counts = as.numeric(x[columns])
+    if (length(unique(counts)) == 1) # same counts in all seat groups
+        return(NA)
+    if (min(counts) != 0) # there is no empty seat group
+        return(NA)
+    if (counts[chosenSeatGroup] == 0) {
+        return('EMPTY')
+    } else {
+        return('OTHER')
+    }
+}
+
+seatingData = adply(seatingData, 1, getChosenSeatGroupEmpty)
+seatingData = nameLastColumnAndConvertToFactor(seatingData, 'seatGroupEmptyVsOther')
+filteredData = filter(seatingData, !is.na(seatGroupEmptyVsOther) & is.na(group))
+
+ggplot(filteredData, aes(seatGroupEmptyVsOther)) +
+    geom_bar(width = 0.1) +
+    ggtitle('Preference for seat groups within a compartment')
 
 ## ---- seating-data-plot- ----
