@@ -179,3 +179,12 @@ nameLastColumnAndConvertToFactor = function(data, newColumnName) {
 filterDataNoGroupAndNPersonsSeatGroup = function(seatingData, nOtherPersons) {
     filter(seatingData, nPersonsSeatGroup == nOtherPersons & is.na(group))
 }
+
+# Simple binomial test.
+# NA values are automatically removed from the data column.
+simpleBinomTest = function(dataColumn, successValue, confidenceLevel) {
+    dataColumn = subset(dataColumn, !is.na(dataColumn))
+    numberOfSuccess = length(which(dataColumn == successValue))
+    totalNumber = length(dataColumn)
+    binom.test(numberOfSuccess, totalNumber, alternative = 'two.sided', conf.level = confidenceLevel)
+}

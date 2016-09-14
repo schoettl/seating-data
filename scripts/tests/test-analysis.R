@@ -141,3 +141,20 @@ test_that('get the other person direction works', {
     x = makeTestData(NA, 'BACKWARD', 'across')
     expect_that(getTheOtherPersonDirection(x), equals('FORWARD'))
 })
+
+test_that('simple binomial significance test works', {
+    confidenceLevel = 0.95
+
+    vec = rep('foo', 100)
+    expect_that(simpleBinomTest(vec, 'foo', confidenceLevel)$p.value, equals(0))
+
+    vec = c(rep('foo', 100), rep('bar', 100))
+    expect_that(simpleBinomTest(vec, 'foo', confidenceLevel)$p.value, equals(1))
+    expect_that(simpleBinomTest(vec, 'bar', confidenceLevel)$p.value, equals(1))
+
+    vec = c(rep('foo', 100), 'bar', rep(NA, 100))
+    expect_true(simpleBinomTest(vec, 'foo', confidenceLevel)$p.value < 0.01)
+    expect_true(simpleBinomTest(vec, 'bar', confidenceLevel)$p.value < 0.01)
+
+    expect_that(simpleBinomTest(vec, NA, confidenceLevel)$p.value, equals(0))
+})
