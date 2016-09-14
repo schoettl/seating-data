@@ -106,7 +106,7 @@ ggplot(filteredData, aes(seatDirection)) +
 ## ---- seating-data-plot-empty-side-direction ----
 
 filteredData = filterDataNoGroupAndNPersonsSeatGroup(seatingData, 0)
-filteredData = mutate(filteredData, seatSideDirection = paste(seatSide, seatDirection, sep = '_'))
+filteredData = mutate(filteredData, seatSideDirection = interaction(seatSide, seatDirection, sep = '_'))
 ggplot(filteredData, aes(seatSideDirection)) +
     geom_bar(width = 0.1) +
     ggtitle('Seat preference in empty seat group')
@@ -249,5 +249,16 @@ filteredData = filter(filteredData, is.na(personAcross))
 ggplot(filteredData, aes(seatDirection)) +
     geom_bar(width = 0.1) +
     ggtitle('Preference for facing direction in seat group with two others')
+
+## ---- seating-data-plot-2other-side-direction ----
+
+filteredData = filterDataNoGroupAndNPersonsSeatGroup(seatingData, 2)
+filteredData = filter(filteredData, is.na(personDiagonal))
+filteredData = mutate(filteredData,
+        seatSideDirection = interaction(seatSide, seatDirection, sep = '_'))
+ggplot(filteredData, aes(seatSideDirection)) +
+    geom_bar(width = 0.1) +
+    scale_x_discrete(drop = FALSE) +
+    ggtitle('Preference for seats in seat group with two others')
 
 ## ---- seating-data-plot- ----

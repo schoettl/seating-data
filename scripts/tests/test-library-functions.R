@@ -23,3 +23,11 @@ test_that('dplyr functions work as expected', {
                     order = 1:5)
     expect_that(arrange(df, V2, V1)$order, equals(rev(df$order)))
 })
+
+test_that('interaction works like I expect it', {
+    a = c('foo', 'bar')
+    b = c('win', 'bar')
+    result = interaction(a, b)
+    expect_that(length(result), equals(2))
+    expect_that(length(levels(result)), equals(4))
+})
