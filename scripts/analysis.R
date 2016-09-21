@@ -180,11 +180,18 @@ filterDataNoGroupAndNPersonsSeatGroup = function(seatingData, nOtherPersons) {
     filter(seatingData, nPersonsSeatGroup == nOtherPersons & is.na(group))
 }
 
-# Simple binomial test.
+# Simple exact binomial test function.
 # NA values are automatically removed from the data column.
-simpleBinomTest = function(dataColumn, successValue, confidenceLevel) {
+simpleBinomTest = function(dataColumn, successValue) {
     dataColumn = subset(dataColumn, !is.na(dataColumn))
     numberOfSuccess = length(which(dataColumn == successValue))
     totalNumber = length(dataColumn)
-    binom.test(numberOfSuccess, totalNumber, alternative = 'two.sided', conf.level = confidenceLevel)
+    binom.test(numberOfSuccess, totalNumber, alternative = 'two.sided')
 }
+
+simpleBinomTestPValueFormatted = function(dataColumn, successValue) {
+    result = simpleBinomTest(dataColumn, successValue)
+    pValue = result$p.value
+    pValue # TODO format value
+}
+pValueBinomTest = simpleBinomTestPValueFormatted # simpler alias for use in thesis
