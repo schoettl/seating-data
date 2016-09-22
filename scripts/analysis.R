@@ -192,6 +192,9 @@ simpleBinomTest = function(dataColumn, successValue) {
 simpleBinomTestPValueFormatted = function(dataColumn, successValue) {
     result = simpleBinomTest(dataColumn, successValue)
     pValue = result$p.value
-    pValue # TODO format value
+    if (pValue < 0.001)
+        return("< 0.001")
+    else
+        return(round(pValue, 3))
 }
 pValueBinomTest = simpleBinomTestPValueFormatted # simpler alias for use in thesis
