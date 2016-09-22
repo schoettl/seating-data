@@ -18,6 +18,14 @@ xtab = xtable(surveyData[, tableColumns],
 print(xtab, type = 'latex',
     table.placement = 'ht')
 
+## ---- seating-data-plot-age-groups ----
+
+personData$ageGroupOrdered = factor(personData$AGE_GROUP,
+        levels = c('YOUNG_CHILD', 'SCHOOLCHILD', 'YOUTHFUL', 'YOUNG_ADULT', 'ADULT', 'AGED', NA))
+ggplot(personData, aes(ageGroupOrdered)) +
+    geom_bar(width = 0.1) +
+    ggtitle('Passengers by age groups')
+
 ## ---- seating-group-related-data ----
 
 groupRelatedSeatingData = seatingData %>%
