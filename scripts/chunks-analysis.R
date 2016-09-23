@@ -24,7 +24,8 @@ personData$ageGroupOrdered = factor(personData$AGE_GROUP,
         levels = c('YOUNG_CHILD', 'SCHOOLCHILD', 'YOUTHFUL', 'YOUNG_ADULT', 'ADULT', 'AGED', NA))
 ggplot(personData, aes(ageGroupOrdered)) +
     geom_bar(width = 0.1) +
-    ggtitle('Passengers by age groups')
+    ggtitle('Passengers by age groups') +
+    xlab('age group')
 
 ## ---- seating-group-related-data ----
 
