@@ -24,6 +24,7 @@ personData$ageGroupOrdered = factor(personData$AGE_GROUP,
         levels = c('YOUNG_CHILD', 'SCHOOLCHILD', 'YOUTHFUL', 'YOUNG_ADULT', 'ADULT', 'AGED', NA))
 ggplot(personData, aes(ageGroupOrdered)) +
     geom_bar(width = 0.1) +
+    geom_text(stat = 'count', aes(label = ..count..), vjust = -1) +
     ggtitle('Passengers by age groups') +
     xlab('age group')
 
@@ -38,6 +39,7 @@ groupRelatedSeatingData = seatingData %>%
 seatingData$inGroup = !is.na(seatingData$group)
 ggplot(seatingData, aes(inGroup)) +
     geom_bar(width = 0.1) +
+    geom_text(stat = 'count', aes(label = ..count..), vjust = -1) +
     ggtitle('Number of passengers traveling alone or in groups')
 
 ## ---- seating-data-plot-empty-side ----
@@ -45,6 +47,7 @@ ggplot(seatingData, aes(inGroup)) +
 filteredData = filterDataNoGroupAndNPersonsSeatGroup(seatingData, 0)
 ggplot(filteredData, aes(seatSide)) +
     geom_bar(width = 0.1) +
+    geom_text(stat = 'count', aes(label = ..count..), vjust = -1) +
     ggtitle('Preference for window/aisle seats in empty seat group')
 
 ## ---- seating-data-plot-empty-direction ----
@@ -52,6 +55,7 @@ ggplot(filteredData, aes(seatSide)) +
 filteredData = filterDataNoGroupAndNPersonsSeatGroup(seatingData, 0)
 ggplot(filteredData, aes(seatDirection)) +
     geom_bar(width = 0.1) +
+    geom_text(stat = 'count', aes(label = ..count..), vjust = -1) +
     ggtitle('Preference for facing direction in empty seat group')
 
 ## ---- seating-data-plot-empty-side-direction ----
@@ -60,6 +64,7 @@ filteredData = filterDataNoGroupAndNPersonsSeatGroup(seatingData, 0)
 filteredData = mutate(filteredData, seatSideDirection = interaction(seatSide, seatDirection, sep = '_'))
 ggplot(filteredData, aes(seatSideDirection)) +
     geom_bar(width = 0.1) +
+    geom_text(stat = 'count', aes(label = ..count..), vjust = -1) +
     ggtitle('Seat preference in empty seat group')
 
 ## ---- seating-data-plot-position-relative ----
@@ -68,6 +73,7 @@ filteredData = filterDataNoGroupAndNPersonsSeatGroup(seatingData, 1)
 filteredData$positionRelative = getPositionRelative(filteredData)
 ggplot(filteredData, aes(positionRelative)) +
     geom_bar(width = 0.1) +
+    geom_text(stat = 'count', aes(label = ..count..), vjust = -1) +
     ggtitle('Preference for position relative to one other person')
 
 ## ---- seating-data-plot-position-relative-window ----
@@ -76,6 +82,7 @@ filteredData = filterDataNoGroupAndNPersonsSeatGroup(seatingData, 1)
 filteredData$positionRelative = getPositionRelative(filteredData)
 ggplot(filteredData, aes(positionRelative)) +
     geom_bar(width = 0.1) +
+    geom_text(stat = 'count', aes(label = ..count..), vjust = -1) +
     facet_wrap(~ seatSide) +
     ggtitle('Preference for position relative to one other person splitted by chosen seat')
 
@@ -85,6 +92,7 @@ filteredData = filterDataNoGroupAndNPersonsSeatGroup(seatingData, 1)
 filteredData$positionRelative = getPositionRelative(filteredData)
 ggplot(filteredData, aes(positionRelative)) +
     geom_bar(width = 0.1) +
+    geom_text(stat = 'count', aes(label = ..count..), vjust = -1) +
     facet_wrap(~ seatDirection) +
     ggtitle('Preference for position relative to one other person splitted by chosen seat')
 
@@ -100,6 +108,7 @@ filteredData = nameLastColumnAndConvertToFactor(filteredData, 'theOtherPersonDir
 
 ggplot(filteredData, aes(positionRelative)) +
     geom_bar(width = 0.1) +
+    geom_text(stat = 'count', aes(label = ..count..), vjust = -1) +
     facet_grid(theOtherPersonDirection ~ theOtherPersonSide) +
     ggtitle('Preference for position relative to one other person depending on their position')
 
@@ -128,6 +137,7 @@ filteredData = filter(seatingData, !is.na(seatGroupOccupancy) & is.na(group))
 
 ggplot(filteredData, aes(seatGroupOccupancy)) +
     geom_bar(width = 0.1) +
+    geom_text(stat = 'count', aes(label = ..count..), vjust = -1) +
     ggtitle('Preference for seat groups within a compartment')
 
 ## ---- seating-data-plot-chosen-seat-group-01vs23 ----
@@ -154,6 +164,7 @@ filteredData = filter(seatingData, !is.na(seatGroup01vs23) & is.na(group))
 
 ggplot(filteredData, aes(seatGroup01vs23)) +
     geom_bar(width = 0.1) +
+    geom_text(stat = 'count', aes(label = ..count..), vjust = -1) +
     ggtitle('Preference for seat groups within a compartment')
 
 ## ---- seating-data-plot-chosen-seat-group-empty ----
@@ -181,6 +192,7 @@ filteredData = filter(seatingData, !is.na(seatGroupEmptyVsOther) & is.na(group))
 
 ggplot(filteredData, aes(seatGroupEmptyVsOther)) +
     geom_bar(width = 0.1) +
+    geom_text(stat = 'count', aes(label = ..count..), vjust = -1) +
     ggtitle('Preference for seat groups within a compartment')
 
 ## ---- seating-data-plot-2other-side ----
@@ -190,6 +202,7 @@ filteredData = filterDataNoGroupAndNPersonsSeatGroup(seatingData, 2)
 filteredData = filter(filteredData, is.na(personNext))
 ggplot(filteredData, aes(seatSide)) +
     geom_bar(width = 0.1) +
+    geom_text(stat = 'count', aes(label = ..count..), vjust = -1) +
     ggtitle('Preference for window/aisle seats in seat group with two others')
 
 ## ---- seating-data-plot-2other-direction ----
@@ -199,6 +212,7 @@ filteredData = filterDataNoGroupAndNPersonsSeatGroup(seatingData, 2)
 filteredData = filter(filteredData, is.na(personAcross))
 ggplot(filteredData, aes(seatDirection)) +
     geom_bar(width = 0.1) +
+    geom_text(stat = 'count', aes(label = ..count..), vjust = -1) +
     ggtitle('Preference for facing direction in seat group with two others')
 
 ## ---- seating-data-plot-2other-side-direction ----
@@ -209,6 +223,7 @@ filteredData = mutate(filteredData,
         seatSideDirection = interaction(seatSide, seatDirection, sep = '_'))
 ggplot(filteredData, aes(seatSideDirection)) +
     geom_bar(width = 0.1) +
+    geom_text(stat = 'count', aes(label = ..count..), vjust = -1) +
     scale_x_discrete(drop = FALSE) +
     ggtitle('Preference for seats in seat group with two others')
 
