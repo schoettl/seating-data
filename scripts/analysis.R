@@ -189,12 +189,16 @@ simpleBinomTest = function(dataColumn, successValue) {
     binom.test(numberOfSuccess, totalNumber, alternative = 'two.sided')
 }
 
-simpleBinomTestPValueFormatted = function(dataColumn, successValue) {
+simpleBinomTestResults = function(dataColumn, successValue) {
     result = simpleBinomTest(dataColumn, successValue)
     pValue = result$p.value
     if (pValue < 0.001)
-        return("< 0.001")
+        pValue = "< 0.001"
     else
-        return(round(pValue, 3))
+        pValue = paste0("=", round(pValue, 3))
+
+    paste0("exact binomial test, $p$-value $",
+           pValue, "$, $n = ", length(dataColumn), "$")
 }
-pValueBinomTest = simpleBinomTestPValueFormatted # simpler alias for use in thesis
+
+binomTest = simpleBinomTestResults # simpler alias for use in thesis
