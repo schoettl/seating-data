@@ -21,7 +21,8 @@ print(xtab, type = 'latex',
 ## ---- seating-data-plot-age-groups ----
 
 personData$ageGroupOrdered = factor(personData$AGE_GROUP,
-        levels = c('YOUNG_CHILD', 'SCHOOLCHILD', 'YOUTHFUL', 'YOUNG_ADULT', 'ADULT', 'AGED', NA))
+        levels = c('YOUNG_CHILD', 'SCHOOLCHILD', 'YOUTHFUL',
+                   'YOUNG_ADULT', 'ADULT', 'AGED', NA))
 ggplot(personData, aes(ageGroupOrdered)) +
     geom_bar(width = 0.1) +
     geom_text(stat = 'count', aes(label = ..count..), vjust = -1) +
@@ -36,8 +37,8 @@ groupRelatedSeatingData = seatingData %>%
 
 ## ---- seating-data-plot-groups ----
 
-seatingData$inGroup = !is.na(seatingData$group)
-ggplot(seatingData, aes(inGroup)) +
+personData$inGroup = ifelse(is.na(personData$M_GROUP), 'ALONE', 'GROUP')
+ggplot(personData, aes(inGroup)) +
     geom_bar(width = 0.1) +
     geom_text(stat = 'count', aes(label = ..count..), vjust = -1) +
     ggtitle('Number of passengers traveling alone or in groups')
@@ -61,8 +62,9 @@ ggplot(filteredData, aes(seatDirection)) +
 ## ---- seating-data-plot-empty-side-direction ----
 
 filteredData = filterDataNoGroupAndNPersonsSeatGroup(seatingData, 0)
-filteredData = mutate(filteredData, seatSideDirection = interaction(seatSide, seatDirection, sep = '_'))
-ggplot(filteredData, aes(seatSideDirection)) +
+filteredData = mutate(filteredData,
+        seatPosition = interaction(seatSide, seatDirection, sep = '_'))
+ggplot(filteredData, aes(seatPosition)) +
     geom_bar(width = 0.1) +
     geom_text(stat = 'count', aes(label = ..count..), vjust = -1) +
     ggtitle('Seat preference in empty seat group')
@@ -218,12 +220,17 @@ ggplot(filteredData, aes(seatDirection)) +
 ## ---- seating-data-plot-2other-side-direction ----
 
 filteredData = filterDataNoGroupAndNPersonsSeatGroup(seatingData, 2)
+# only consider decision where there was only choice between two diagonally opposite seats
+# flaw: cannot be splitted with facets
 filteredData = filter(filteredData, is.na(personDiagonal))
 filteredData = mutate(filteredData,
-        seatSideDirection = interaction(seatSide, seatDirection, sep = '_'))
-ggplot(filteredData, aes(seatSideDirection)) +
+        seatPosition = interaction(seatSide, seatDirection, sep = '_'))
+filteredData$diagonalPair = paste0('diagonal pair ',
+        ifelse(filteredData$seatPosition %in% c('AISLE_BACKWARD', 'WINDOW_FORWARD'), 1, 2))
+ggplot(filteredData, aes(seatPosition)) +
     geom_bar(width = 0.1) +
     geom_text(stat = 'count', aes(label = ..count..), vjust = -1) +
+    facet_wrap(~ diagonalPair) +
     scale_x_discrete(drop = FALSE) +
     ggtitle('Preference for seats in seat group with two others')
 
