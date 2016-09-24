@@ -170,6 +170,10 @@ getTheOtherPersonDirection = function(x) {
     getDirectionString(direction)
 }
 
+mapAndAddNewColumn = function(dataframe, func) {
+    adply(dataframe, 1, func)
+}
+
 nameLastColumnAndConvertToFactor = function(data, newColumnName) {
     colnames(data)[ncol(data)] = newColumnName
     data[[newColumnName]] = factor(data[[newColumnName]])

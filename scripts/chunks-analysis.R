@@ -101,9 +101,9 @@ ggplot(filteredData, aes(positionRelative)) +
 filteredData = filterDataNoGroupAndNPersonsSeatGroup(seatingData, 1)
 filteredData$positionRelative = getPositionRelative(filteredData)
 
-filteredData = adply(filteredData, 1, getTheOtherPersonSide)
+filteredData = mapAndAddNewColumn(filteredData, getTheOtherPersonSide)
 filteredData = nameLastColumnAndConvertToFactor(filteredData, 'theOtherPersonSide')
-filteredData = adply(filteredData, 1, getTheOtherPersonDirection)
+filteredData = mapAndAddNewColumn(filteredData, getTheOtherPersonDirection)
 filteredData = nameLastColumnAndConvertToFactor(filteredData, 'theOtherPersonDirection')
 
 ggplot(filteredData, aes(positionRelative)) +
@@ -131,7 +131,7 @@ getChosenSeatGroup = function(x) {
     }
 }
 
-seatingData = adply(seatingData, 1, getChosenSeatGroup)
+seatingData = mapAndAddNewColumn(seatingData, getChosenSeatGroup)
 seatingData = nameLastColumnAndConvertToFactor(seatingData, 'seatGroupOccupancy')
 filteredData = filter(seatingData, !is.na(seatGroupOccupancy) & is.na(group))
 
@@ -158,7 +158,7 @@ getChosenSeatGroup01vs23 = function(x) {
     }
 }
 
-seatingData = adply(seatingData, 1, getChosenSeatGroup01vs23)
+seatingData = mapAndAddNewColumn(seatingData, getChosenSeatGroup01vs23)
 seatingData = nameLastColumnAndConvertToFactor(seatingData, 'seatGroup01vs23')
 filteredData = filter(seatingData, !is.na(seatGroup01vs23) & is.na(group))
 
@@ -186,7 +186,7 @@ getChosenSeatGroupEmpty = function(x) {
     }
 }
 
-seatingData = adply(seatingData, 1, getChosenSeatGroupEmpty)
+seatingData = mapAndAddNewColumn(seatingData, getChosenSeatGroupEmpty)
 seatingData = nameLastColumnAndConvertToFactor(seatingData, 'seatGroupEmptyVsOther')
 filteredData = filter(seatingData, !is.na(seatGroupEmptyVsOther) & is.na(group))
 
