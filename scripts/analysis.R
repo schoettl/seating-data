@@ -195,14 +195,13 @@ simpleBinomTest = function(dataColumn, successValue) {
 
 simpleBinomTestResults = function(dataColumn, successValue) {
     result = simpleBinomTest(dataColumn, successValue)
-    pValue = result$p.value
-    if (pValue < 0.001)
-        pValue = "< 0.001"
-    else
-        pValue = paste0("=", round(pValue, 3))
-
+    pValue = formatPValue(result$p.value)
     paste0("exact binomial test, $p$-value $",
            pValue, "$, $n = ", length(dataColumn), "$")
 }
 
 binomTest = simpleBinomTestResults # simpler alias for use in thesis
+
+formatPValue = function(pValue) {
+    ifelse(pValue < 0.001, "< 0.001", paste0("=", round(pValue, 3)))
+}
