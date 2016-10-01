@@ -38,8 +38,8 @@ main() {
     else
         exitWithError "$(printUsage)"
     fi
-    [[ -n $outputDir ]] \
-        || exitWithError "error: no simulation output directory specified."
+
+    echo "using output from: $outputDir"
 
     declare targetDir="$PROGDIR"/data/simulated
     mkdir -p "$targetDir"
