@@ -41,9 +41,14 @@ main() {
 
     echo "using output from: $outputDir"
 
-    declare targetDir="$PROGDIR"/data/simulated
+    declare targetDir=$PROGDIR/data/simulated
+    declare targetFile=$targetDir/LOG_EVENT.csv
     mkdir -p "$targetDir"
-    cat "$outputDir"/LOG_EVENT*.csv > "$targetDir"/LOG_EVENT.csv
+    declare -a files=( "$outputDir"/LOG_EVENT*.csv )
+    cat "${files[1]}" > "$targetFile"
+    for f in "${files[@]:1}"; do
+        tail -n+2 "$f" >> "$targetFile"
+    done
 }
 
 main "$@"
