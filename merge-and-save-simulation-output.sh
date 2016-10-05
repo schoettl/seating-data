@@ -45,7 +45,7 @@ main() {
     declare targetFile=$targetDir/LOG_EVENT.csv
     mkdir -p "$targetDir"
     declare -a files=( "$outputDir"/LOG_EVENT*.csv )
-    cat "${files[1]}" > "$targetFile"
+    cat "${files[0]}" > "$targetFile"
     for f in "${files[@]:1}"; do
         tail -n+2 "$f" >> "$targetFile"
     done
