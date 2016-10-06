@@ -188,7 +188,7 @@ filterDataNoGroupAndNPersonsSeatGroup = function(seatingData, nOtherPersons) {
 # NA values are automatically removed from the data column.
 simpleBinomTest = function(dataColumn, successValue) {
     dataColumn = subset(dataColumn, !is.na(dataColumn))
-    numberOfSuccess = length(which(dataColumn == successValue))
+    numberOfSuccess = count(dataColumn == successValue)
     totalNumber = length(dataColumn)
     binom.test(numberOfSuccess, totalNumber, alternative = 'two.sided')
 }
@@ -205,3 +205,5 @@ binomTest = simpleBinomTestResults # simpler alias for use in thesis
 formatPValue = function(pValue) {
     ifelse(pValue < 0.001, "< 0.001", paste0("=", round(pValue, 3)))
 }
+
+count = function(boolVector) length(which(boolVector))

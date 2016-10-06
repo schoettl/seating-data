@@ -29,6 +29,14 @@ ggplot(personData, aes(ageGroupOrdered)) +
     ggtitle('Passengers by age groups') +
     xlab('age group')
 
+## ---- seating-data-plot-gender ----
+
+ggplot(personData, aes(GENDER)) +
+    geom_bar(width = 0.1) +
+    geom_text(stat = 'count', aes(label = ..count..), vjust = -1) +
+    ggtitle('Passengers by gender') +
+    xlab('gender')
+
 ## ---- seating-group-related-data ----
 
 groupRelatedSeatingData = seatingData %>%
