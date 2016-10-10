@@ -26,6 +26,10 @@ getCsvFileName = function(baseName) {
     paste0(workingDirectory, '/../data/', baseName, '.csv')
 }
 
+getCsvFileNameOfSimulatedData = function(baseName) {
+    paste0(workingDirectory, '/../data/simulated/', baseName, '.csv')
+}
+
 readCsvFile = function(baseName) {
     read.csv(getCsvFileName(baseName))
 }
