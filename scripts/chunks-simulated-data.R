@@ -3,25 +3,31 @@ source('analysis.R', chdir = TRUE)
 ## ---- chunk-simulated-data-processing ----
 
 # load simulated LOG_EVENTS.csv
-logEventData = read.csv(getCsvFileNameOfSimulatedData('LOG_EVENT'), sep = ' ')
+logEventDataSim = read.csv(getCsvFileNameOfSimulatedData('LOG_EVENT'), sep = ' ')
 
 # create artificial surveyData and personData
-surveyData = logEventData %>%
-    select(SURVEY) %>%
-    rename(ID = SURVEY) %>%
-    distinct(ID) %>%
-    mutate(
-        AGENT = NA,
-        DATE = Sys.Date())
+createArtificialSurveyData(logEventData) {
+    logEventData %>%
+        select(SURVEY) %>%
+        rename(ID = SURVEY) %>%
+        distinct(ID) %>%
+        mutate(
+            AGENT = NA,
+            DATE = Sys.Date())
+}
+surveyDataSim = createArtificialSurveyData(logEventDataSim)
 
-personData = logEventData %>%
-    select(PERSON) %>%
-    rename(ID = PERSON) %>%
-    distinct(ID) %>%
-    mutate(
-        AGE_GROUP = NA,
-        GENDER = NA,
-        M_GROUP = NA)
+createArtificialPersonData(logEventData) {
+    logEventData %>%
+        select(PERSON) %>%
+        rename(ID = PERSON) %>%
+        distinct(ID) %>%
+        mutate(
+            AGE_GROUP = NA,
+            GENDER = NA,
+            M_GROUP = NA)
+}
+personDataSim = createArtificialPersonData(logEventDataSim)
 
 test_that('data is valid', {
     expect_that(surveyData, has_no_duplicate_ids())
@@ -35,5 +41,5 @@ test_that('data is valid', {
 logEventData = mutate(logEventData,
     TIME = as.character(TIME))
 
-seatingData = generateMoreData(surveyData, logEventData)
+seatingDataSim = generateMoreData(surveyData, logEventData)
 
