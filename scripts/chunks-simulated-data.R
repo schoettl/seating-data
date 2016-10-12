@@ -3,10 +3,13 @@ source('analysis.R', chdir = TRUE)
 ## ---- chunk-simulated-data-processing ----
 
 # load simulated LOG_EVENTS.csv
-logEventDataSim = read.csv(getCsvFileNameOfSimulatedData('LOG_EVENT'), sep = ' ')
+loadSimulatedLogEventData = function() {
+    read.csv(getCsvFileNameOfSimulatedData('LOG_EVENT'), sep = ' ')
+}
+logEventDataSim = createArtificialData()
 
 # create artificial surveyData and personData
-createArtificialSurveyData(logEventData) {
+createArtificialSurveyData = function(logEventData) {
     logEventData %>%
         select(SURVEY) %>%
         rename(ID = SURVEY) %>%
@@ -17,7 +20,7 @@ createArtificialSurveyData(logEventData) {
 }
 surveyDataSim = createArtificialSurveyData(logEventDataSim)
 
-createArtificialPersonData(logEventData) {
+createArtificialPersonData = function(logEventData) {
     logEventData %>%
         select(PERSON) %>%
         rename(ID = PERSON) %>%
