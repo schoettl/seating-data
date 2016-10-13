@@ -57,6 +57,8 @@ ggplot(personData, aes(inGroup)) +
 
 plotSeatGroup0Side = function(seatingData) {
     filteredData <<- filterDataNoGroupAndNPersonsSeatGroup(seatingData, 0)
+    filteredData <<- mutate(filteredData, seatSide = factor(seatSide,
+                                levels = c('AISLE', 'WINDOW')))
     ggplot(filteredData, aes(seatSide)) +
         geom_bar(width = 0.1) +
         geom_text(stat = 'count', aes(label = ..count..), vjust = -1) +
@@ -69,6 +71,8 @@ plotSeatGroup0Side(seatingData)
 
 plotSeatGroup0Direction = function(seatingData) {
     filteredData <<- filterDataNoGroupAndNPersonsSeatGroup(seatingData, 0)
+    filteredData <<- mutate(filteredData, factor(seatDirection,
+                            levels = c('BACKWARD', 'FORWARD')))
     ggplot(filteredData, aes(seatDirection)) +
         geom_bar(width = 0.1) +
         geom_text(stat = 'count', aes(label = ..count..), vjust = -1) +
@@ -82,7 +86,12 @@ plotSeatGroup0Direction(seatingData)
 plotSeatGroup0SideDirection = function(seatingData) {
     filteredData <<- filterDataNoGroupAndNPersonsSeatGroup(seatingData, 0)
     filteredData <<- mutate(filteredData,
-            seatPosition = interaction(seatSide, seatDirection, sep = '_'))
+            seatPosition = interaction(seatSide, seatDirection, sep = '_'),
+            seatPosition = factor(seatPosition,
+                    levels = c('AISLE_BACKWARD',
+                               'WINDOW_BACKWARD',
+                               'AISLE_FORWARD',
+                               'WINDOW_FORWARD')))
     ggplot(filteredData, aes(seatPosition)) +
         geom_bar(width = 0.1) +
         geom_text(stat = 'count', aes(label = ..count..), vjust = -1) +
@@ -95,7 +104,10 @@ plotSeatGroup0SideDirection(seatingData)
 
 plotSeatGroup1 = function(seatingData) {
     filteredData <<- filterDataNoGroupAndNPersonsSeatGroup(seatingData, 1)
-    filteredData <<- mutate(filteredData, positionRelative = getPositionRelative(filteredData))
+    filteredData <<- mutate(filteredData,
+                            positionRelative = getPositionRelative(filteredData),
+                            positionRelative = factor(positionRelative,
+                                levels = c('NEXT', 'ACROSS', 'DIAGONAL')))
     ggplot(filteredData, aes(positionRelative)) +
         geom_bar(width = 0.1) +
         geom_text(stat = 'count', aes(label = ..count..), vjust = -1) +
@@ -232,6 +244,8 @@ plotSeatGroup2Side = function(seatingData) {
     filteredData <<- filterDataNoGroupAndNPersonsSeatGroup(seatingData, 2)
     # only consider decisions where there was no choice between the facing direction
     filteredData <<- filter(filteredData, is.na(personNext))
+    filteredData <<- mutate(filteredData, seatSide = factor(seatSide,
+                                levels = c('AISLE', 'WINDOW')))
     ggplot(filteredData, aes(seatSide)) +
         geom_bar(width = 0.1) +
         geom_text(stat = 'count', aes(label = ..count..), vjust = -1) +
@@ -246,6 +260,8 @@ plotSeatGroup2Direction = function(seatingData) {
     filteredData <<- filterDataNoGroupAndNPersonsSeatGroup(seatingData, 2)
     # only consider decisions where there was no choice between the side
     filteredData <<- filter(filteredData, is.na(personAcross))
+    filteredData <<- mutate(filteredData, seatDirection = factor(seatDirection,
+                                levels = c( 'BACKWARD', 'FORWARD')))
     ggplot(filteredData, aes(seatDirection)) +
         geom_bar(width = 0.1) +
         geom_text(stat = 'count', aes(label = ..count..), vjust = -1) +
