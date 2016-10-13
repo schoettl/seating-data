@@ -26,6 +26,7 @@ createArtificialPersonData = function(logEventData) {
         select(PERSON) %>%
         rename(ID = PERSON) %>%
         distinct(ID) %>%
+        filter(!is.na(ID)) %>%
         mutate(
             AGE_GROUP = NA,
             GENDER = NA,
