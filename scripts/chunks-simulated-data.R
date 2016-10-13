@@ -35,15 +35,15 @@ createArtificialPersonData = function(logEventData) {
 personDataSimulated = createArtificialPersonData(logEventDataSimulated)
 
 test_that('data is valid', {
-    expect_that(surveyData, has_no_duplicate_ids())
-    expect_that(personData, has_no_duplicate_ids())
-    expect_that(logEventData, has_monotonic_increasing_column('ID'))
-    # expect_that(logEventData, has_monotonic_increasing_column_per_survey('TIME'))
+    expect_that(surveyDataSimulated, has_no_duplicate_ids())
+    expect_that(personDataSimulated, has_no_duplicate_ids())
+    expect_that(logEventDataSimulated, has_monotonic_increasing_column('ID'))
+    # expect_that(logEventDataSimulated, has_monotonic_increasing_column_per_survey('TIME'))
 })
 
 # do some preprocessing
 
-logEventData = mutate(logEventData,
+logEventDataSimulated = mutate(logEventDataSimulated,
     TIME = as.character(TIME))
 
 seatingDataSimulated = generateMoreData(surveyDataSimulated, personDataSimulated, logEventDataSimulated)
