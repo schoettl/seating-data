@@ -63,4 +63,4 @@ logEventData = arrange(logEventData, ID, TIME)
 
 ## ---- seating-generate-seating-data ----
 
-seatingData = generateMoreData(surveyData, logEventData)
+seatingData = generateMoreData(surveyData, personData, logEventData)

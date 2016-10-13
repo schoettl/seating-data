@@ -45,5 +45,5 @@ test_that('data is valid', {
 logEventData = mutate(logEventData,
     TIME = as.character(TIME))
 
-seatingDataSimulated = generateMoreData(surveyDataSimulated, logEventDataSimulated)
+seatingDataSimulated = generateMoreData(surveyDataSimulated, personDataSimulated, logEventDataSimulated)
 

@@ -61,9 +61,10 @@ test_that('removing duplicate init events works', {
 test_that('processing works', {
     # saveRDS(filter(logEventData, SURVEY %in% c(2, 4)), file='tests/logEventDataTest1.rds')
     events = readRDS('logEventDataTest1.rds')
-    surveys = data.frame(ID = c(2, 4))
+    surveys = createArtificialSurveyData(events)
+    persons = createArtificialPersonData(events)
 
-    seatingData = generateMoreData(surveys, events)
+    seatingData = generateMoreData(surveys, persons, events)
 
     expect_that(nrow(seatingData) < nrow(filter(events, EVENT_TYPE == 'SIT_DOWN')),
         is_true())
