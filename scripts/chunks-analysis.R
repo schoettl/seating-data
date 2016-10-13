@@ -4,6 +4,8 @@ source('analysis.R', chdir = TRUE)
 # surveyData
 # personData
 # logEventData
+# For tests, data is loaded this way:
+source('chunks-collected-data.R')
 
 
 
