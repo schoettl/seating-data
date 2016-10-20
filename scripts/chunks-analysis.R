@@ -28,7 +28,7 @@ personData$ageGroupOrdered = factor(personData$AGE_GROUP,
 ggplot(personData, aes(ageGroupOrdered)) +
     geom_bar(width = 0.1) +
     geom_text(stat = 'count', aes(label = ..count..), vjust = -1) +
-    ggtitle('Passengers by age groups') +
+    #ggtitle('Passengers by age groups') +
     xlab('age group')
 
 ## ---- seating-data-plot-gender ----
@@ -36,7 +36,7 @@ ggplot(personData, aes(ageGroupOrdered)) +
 ggplot(personData, aes(GENDER)) +
     geom_bar(width = 0.1) +
     geom_text(stat = 'count', aes(label = ..count..), vjust = -1) +
-    ggtitle('Passengers by gender') +
+    #ggtitle('Passengers by gender') +
     xlab('gender')
 
 ## ---- seating-group-related-data ----
@@ -50,8 +50,8 @@ groupRelatedSeatingData = seatingData %>%
 personData$inGroup = ifelse(is.na(personData$M_GROUP), 'ALONE', 'GROUP')
 ggplot(personData, aes(inGroup)) +
     geom_bar(width = 0.1) +
-    geom_text(stat = 'count', aes(label = ..count..), vjust = -1) +
-    ggtitle('Number of passengers traveling alone or in groups')
+    geom_text(stat = 'count', aes(label = ..count..), vjust = -1) #+
+    #ggtitle('Number of passengers traveling alone or in groups')
 
 ## ---- seating-data-plot-empty-side ----
 
@@ -61,8 +61,8 @@ plotSeatGroup0Side = function(seatingData) {
                                 levels = c('AISLE', 'WINDOW')))
     ggplot(filteredData, aes(seatSide)) +
         geom_bar(width = 0.1) +
-        geom_text(stat = 'count', aes(label = ..count..), vjust = -1) +
-        ggtitle('Preference for window/aisle seats in empty seat group')
+        geom_text(stat = 'count', aes(label = ..count..), vjust = -1) #+
+        #ggtitle('Preference for window/aisle seats in empty seat group')
 }
 
 plotSeatGroup0Side(seatingData)
@@ -75,8 +75,8 @@ plotSeatGroup0Direction = function(seatingData) {
                             levels = c('BACKWARD', 'FORWARD')))
     ggplot(filteredData, aes(seatDirection)) +
         geom_bar(width = 0.1) +
-        geom_text(stat = 'count', aes(label = ..count..), vjust = -1) +
-        ggtitle('Preference for facing direction in empty seat group')
+        geom_text(stat = 'count', aes(label = ..count..), vjust = -1) #+
+        #ggtitle('Preference for facing direction in empty seat group')
 }
 
 plotSeatGroup0Direction(seatingData)
@@ -94,8 +94,8 @@ plotSeatGroup0SideDirection = function(seatingData) {
                                'WINDOW_FORWARD')))
     ggplot(filteredData, aes(seatPosition)) +
         geom_bar(width = 0.1) +
-        geom_text(stat = 'count', aes(label = ..count..), vjust = -1) +
-        ggtitle('Seat preference in empty seat group')
+        geom_text(stat = 'count', aes(label = ..count..), vjust = -1) #+
+        #ggtitle('Seat preference in empty seat group')
 }
 
 plotSeatGroup0SideDirection(seatingData)
@@ -110,8 +110,8 @@ plotSeatGroup1 = function(seatingData) {
                                 levels = c('NEXT', 'ACROSS', 'DIAGONAL')))
     ggplot(filteredData, aes(positionRelative)) +
         geom_bar(width = 0.1) +
-        geom_text(stat = 'count', aes(label = ..count..), vjust = -1) +
-        ggtitle('Preference for position relative to one other person')
+        geom_text(stat = 'count', aes(label = ..count..), vjust = -1) #+
+        #ggtitle('Preference for position relative to one other person')
 }
 
 plotSeatGroup1(seatingData)
@@ -123,8 +123,8 @@ filteredData$positionRelative = getPositionRelative(filteredData)
 ggplot(filteredData, aes(positionRelative)) +
     geom_bar(width = 0.1) +
     geom_text(stat = 'count', aes(label = ..count..), vjust = -1) +
-    facet_wrap(~ seatSide) +
-    ggtitle('Preference for position relative to one other person splitted by chosen seat')
+    facet_wrap(~ seatSide) #+
+    #ggtitle('Preference for position relative to one other person splitted by chosen seat')
 
 ## ---- seating-data-plot-position-relative-forward ----
 
@@ -133,8 +133,8 @@ filteredData$positionRelative = getPositionRelative(filteredData)
 ggplot(filteredData, aes(positionRelative)) +
     geom_bar(width = 0.1) +
     geom_text(stat = 'count', aes(label = ..count..), vjust = -1) +
-    facet_wrap(~ seatDirection) +
-    ggtitle('Preference for position relative to one other person splitted by chosen seat')
+    facet_wrap(~ seatDirection) #+
+    #ggtitle('Preference for position relative to one other person splitted by chosen seat')
 
 ## ---- seating-data-plot-position-relative-4 ----
 
@@ -149,8 +149,8 @@ filteredData = nameLastColumnAndConvertToFactor(filteredData, 'theOtherPersonDir
 ggplot(filteredData, aes(positionRelative)) +
     geom_bar(width = 0.1) +
     geom_text(stat = 'count', aes(label = ..count..), vjust = -1) +
-    facet_grid(theOtherPersonDirection ~ theOtherPersonSide) +
-    ggtitle('Preference for position relative to one other person depending on their position')
+    facet_grid(theOtherPersonDirection ~ theOtherPersonSide) #+
+    #ggtitle('Preference for position relative to one other person depending on their position')
 
 ## ---- seating-data-plot-chosen-seat-group-min ----
 
@@ -177,8 +177,8 @@ plotChosenSeatGroupMin = function(seatingData) {
     filteredData <<- filter(seatingData, !is.na(seatGroupOccupancy) & is.na(group))
     ggplot(filteredData, aes(seatGroupOccupancy)) +
         geom_bar(width = 0.1) +
-        geom_text(stat = 'count', aes(label = ..count..), vjust = -1) +
-        ggtitle('Preference for seat groups within a compartment')
+        geom_text(stat = 'count', aes(label = ..count..), vjust = -1) #+
+        #ggtitle('Preference for seat groups within a compartment')
 }
 
 plotChosenSeatGroupMin(seatingData)
@@ -207,8 +207,8 @@ filteredData = filter(seatingData, !is.na(seatGroup01vs23) & is.na(group))
 
 ggplot(filteredData, aes(seatGroup01vs23)) +
     geom_bar(width = 0.1) +
-    geom_text(stat = 'count', aes(label = ..count..), vjust = -1) +
-    ggtitle('Preference for seat groups within a compartment')
+    geom_text(stat = 'count', aes(label = ..count..), vjust = -1) #+
+    #ggtitle('Preference for seat groups within a compartment')
 
 ## ---- seating-data-plot-chosen-seat-group-empty ----
 
@@ -235,8 +235,8 @@ filteredData = filter(seatingData, !is.na(seatGroupEmptyVsOther) & is.na(group))
 
 ggplot(filteredData, aes(seatGroupEmptyVsOther)) +
     geom_bar(width = 0.1) +
-    geom_text(stat = 'count', aes(label = ..count..), vjust = -1) +
-    ggtitle('Preference for seat groups within a compartment')
+    geom_text(stat = 'count', aes(label = ..count..), vjust = -1) #+
+    #ggtitle('Preference for seat groups within a compartment')
 
 ## ---- seating-data-plot-2other-side ----
 
@@ -248,8 +248,8 @@ plotSeatGroup2Side = function(seatingData) {
                                 levels = c('AISLE', 'WINDOW')))
     ggplot(filteredData, aes(seatSide)) +
         geom_bar(width = 0.1) +
-        geom_text(stat = 'count', aes(label = ..count..), vjust = -1) +
-        ggtitle('Preference for window/aisle seats in seat group with two others')
+        geom_text(stat = 'count', aes(label = ..count..), vjust = -1) #+
+        #ggtitle('Preference for window/aisle seats in seat group with two others')
 }
 
 plotSeatGroup2Side(seatingData)
@@ -264,8 +264,8 @@ plotSeatGroup2Direction = function(seatingData) {
                                 levels = c( 'BACKWARD', 'FORWARD')))
     ggplot(filteredData, aes(seatDirection)) +
         geom_bar(width = 0.1) +
-        geom_text(stat = 'count', aes(label = ..count..), vjust = -1) +
-        ggtitle('Preference for facing direction in seat group with two others')
+        geom_text(stat = 'count', aes(label = ..count..), vjust = -1) #+
+        #ggtitle('Preference for facing direction in seat group with two others')
 }
 
 plotSeatGroup2Direction(seatingData)
@@ -284,7 +284,7 @@ ggplot(filteredData, aes(seatPosition)) +
     geom_bar(width = 0.1) +
     geom_text(stat = 'count', aes(label = ..count..), vjust = -1) +
     facet_wrap(~ diagonalPair) +
-    scale_x_discrete(drop = FALSE) +
-    ggtitle('Preference for seats in seat group with two others')
+    scale_x_discrete(drop = FALSE) #+
+    #ggtitle('Preference for seats in seat group with two others')
 
 ## ---- seating-data-plot- ----
