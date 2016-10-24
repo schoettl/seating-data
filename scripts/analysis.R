@@ -215,7 +215,7 @@ makeBarsWithRelativeFrequency = function(ggp) {
         geom_bar(aes(y = ..count.. / sum(..count..)), width = 0.1) +
         scale_y_continuous(labels = scales::percent, limits = c(0,1)) +
         ylab('relative frequency') +
-        geom_text(stat = 'count', aes(label = ..count.., y = ..count.. / sum(..count..)), vjust = -0.5, size = 5)
+        geom_text(stat = 'count', aes(label = ..count.., y = ..count.. / sum(..count..)), vjust = -0.5, size = 8)
 }
 
 count = function(boolVector) length(which(boolVector))
