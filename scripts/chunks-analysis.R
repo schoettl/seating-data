@@ -27,7 +27,7 @@ personData$ageGroupOrdered = factor(personData$AGE_GROUP,
                    'YOUNG_ADULT', 'ADULT', 'AGED', NA))
 ggp = ggplot(personData, aes(ageGroupOrdered))
 makeBarsWithRelativeFrequency(ggp) +
-    annotate('text', label = paste0('n = ', nrow(personData)), x = 1, y = 0.9, size = 8) +
+    annotate('text', label = paste0('n = ', nrow(personData)), x = 2, y = 0.9, size = 8) +
     theme(axis.text.x = element_text(angle = 90, vjust = 0.5)) +
     #ggtitle('Passengers by age groups') +
     xlab('age group')
