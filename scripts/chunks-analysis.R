@@ -28,6 +28,7 @@ personData$ageGroupOrdered = factor(personData$AGE_GROUP,
 ggp = ggplot(personData, aes(ageGroupOrdered))
 makeBarsWithRelativeFrequency(ggp) +
     annotate('text', label = paste0('n = ', nrow(personData)), x = 1, y = 0.9, size = 5) +
+    theme(axis.text.x = element_text(angle = 90, vjust = 0.5)) +
     #ggtitle('Passengers by age groups') +
     xlab('age group')
 
@@ -91,7 +92,11 @@ plotSeatGroup0SideDirection = function(seatingData) {
                     levels = c('AISLE_BACKWARD',
                                'WINDOW_BACKWARD',
                                'AISLE_FORWARD',
-                               'WINDOW_FORWARD')))
+                               'WINDOW_FORWARD'),
+                    labels = c('AIS_BW',
+                               'WIN_BW',
+                               'AIS_FW',
+                               'WIN_FW')))
     ggp = ggplot(filteredData, aes(seatPosition))
     makeBarsWithRelativeFrequency(ggp) +
         annotate('text', label = paste0('n = ', nrow(filteredData)), x = 1, y = 0.9, size = 5) +
