@@ -27,7 +27,7 @@ personData$ageGroupOrdered = factor(personData$AGE_GROUP,
                    'YOUNG_ADULT', 'ADULT', 'AGED', NA))
 ggp = ggplot(personData, aes(ageGroupOrdered))
 makeBarsWithRelativeFrequency(ggp) +
-    annotate('text', label = paste0('n = ', nrow(filteredData)), x = 1, y = 0.9, size = 5) +
+    annotate('text', label = paste0('n = ', nrow(personData)), x = 1, y = 0.9, size = 5) +
     #ggtitle('Passengers by age groups') +
     xlab('age group')
 
@@ -35,7 +35,7 @@ makeBarsWithRelativeFrequency(ggp) +
 
 ggp = ggplot(personData, aes(GENDER))
 makeBarsWithRelativeFrequency(ggp) +
-    annotate('text', label = paste0('n = ', nrow(filteredData)), x = 1, y = 0.9, size = 5) +
+    annotate('text', label = paste0('n = ', nrow(personData)), x = 1, y = 0.9, size = 5) +
     #ggtitle('Passengers by gender') +
     xlab('gender')
 
@@ -50,7 +50,7 @@ groupRelatedSeatingData = seatingData %>%
 personData$inGroup = ifelse(is.na(personData$M_GROUP), 'ALONE', 'GROUP')
 ggp = ggplot(personData, aes(inGroup))
 makeBarsWithRelativeFrequency(ggp) +
-    annotate('text', label = paste0('n = ', nrow(filteredData)), x = 1, y = 0.9, size = 5)
+    annotate('text', label = paste0('n = ', nrow(personData)), x = 1, y = 0.9, size = 5)
     #ggtitle('Number of passengers traveling alone or in groups')
 
 ## ---- seating-data-plot-empty-side ----
