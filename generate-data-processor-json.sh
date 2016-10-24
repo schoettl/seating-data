@@ -3,7 +3,7 @@
 
 printUsage() {
     cat <<EOF
-usage: $PROGNAME <compartment_count>
+usage: $PROGNAME [-s <survey_id_offset>] [-p <person_id_offset>] [-e <event_id_offset>] <compartment_count>
 EOF
 }
 
@@ -40,17 +40,50 @@ exitWithError() {
     exit 1
 }
 
-main() {
+# $*: command line arguments = "$@"
+parseCommandLine() {
+    # declare options globally and readonly
+    while getopts "s:p:e:" OPTION; do
+         case $OPTION in
+         s)
+             declare surveyIdOffs=$OPTARG
+             ;;
+         p)
+             declare personIdOffs=$OPTARG
+             ;;
+         e)
+             declare eventIdOffs=$OPTARG
+             ;;
+         h)
+             printUsage
+             exit 0
+             ;;
+        esac
+    done
+
+    declare -gr SURVEY_ID_OFFS=$surveyIdOffs
+    declare -gr PERSON_ID_OFFS=$personIdOffs
+    declare -gr EVENT_ID_OFFS=$eventIdOffs
+
+    shift $((OPTIND-1))
+
     (( $# == 1 )) || exitWithError "$(printUsage)"
-    declare compartmentCount=$1
+
+    declare -gr COMPARTMENT_COUNT=$1
+
+    return 0
+}
+
+main() {
+    parseCommandLine "$@"
 
     declare i outputFilesFile processorsFile
     outputFilesFile=$(mktemp)
     processorsFile=$(mktemp)
 
-    for (( i = 1 ; i <= compartmentCount ; i++ )); do
+    for (( i = 1 ; i <= COMPARTMENT_COUNT ; i++ )); do
         declare processorId=$((PROCESSOR_ID_OFFSET + i))
-        declare surveyId=$((0 + i))
+        declare surveyId=$((SURVEY_ID_OFFS + i))
         declare outputFileNumber
         outputFileNumber=$(printf "%02d" "$i")
         echo "$OUTPUT_FILE_JSON" | sed \
@@ -61,8 +94,8 @@ main() {
             -e "s/<processor_id>/$processorId/" \
             -e "s/<compartment_index>/$i/" \
             -e "s/<survey_id>/$surveyId/" \
-            -e "s/<person_id_offset>/$((i * 20))/" \
-            -e "s/<first_log_event_id>/$((i * 20 + 1))/" \
+            -e "s/<person_id_offset>/$((PERSON_ID_OFFS + i * 20))/" \
+            -e "s/<first_log_event_id>/$((EVENT_ID_OFFS + i * 20 + 1))/" \
             >> "$processorsFile"
     done
 
