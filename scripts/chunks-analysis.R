@@ -129,7 +129,7 @@ filteredData$positionRelative = getPositionRelative(filteredData)
 ggp = ggplot(filteredData, aes(positionRelative))
 makeBarsWithRelativeFrequency(ggp) +
     theme(text = element_text(size = 16)) +
-    annotate('text', label = paste0('n = ', nrow(filteredData)), x = 1, y = 0.9, size = 8) +
+    annotate('text', label = paste0('n = ', nrow(filteredData)), x = 2, y = 0.9, size = 8) +
     #ggtitle('Preference for position relative to one other person splitted by chosen seat') +
     facet_wrap(~ seatSide)
 
@@ -140,7 +140,7 @@ filteredData$positionRelative = getPositionRelative(filteredData)
 ggp = ggplot(filteredData, aes(positionRelative))
 makeBarsWithRelativeFrequency(ggp) +
     theme(text = element_text(size = 16)) +
-    annotate('text', label = paste0('n = ', nrow(filteredData)), x = 1, y = 0.9, size = 8) +
+    annotate('text', label = paste0('n = ', nrow(filteredData)), x = 2, y = 0.9, size = 8) +
     #ggtitle('Preference for position relative to one other person splitted by chosen seat') +
     facet_wrap(~ seatDirection)
 
@@ -156,7 +156,7 @@ filteredData = nameLastColumnAndConvertToFactor(filteredData, 'theOtherPersonDir
 
 ggp = ggplot(filteredData, aes(positionRelative))
 makeBarsWithRelativeFrequency(ggp) +
-    annotate('text', label = paste0('n = ', nrow(filteredData)), x = 1, y = 0.9, size = 8)
+    annotate('text', label = paste0('n = ', nrow(filteredData)), x = 2, y = 0.9, size = 8)
     #ggtitle('Preference for position relative to one other person depending on their position') +
     facet_grid(theOtherPersonDirection ~ theOtherPersonSide)
 
@@ -294,6 +294,6 @@ makeBarsWithRelativeFrequency(ggp) +
     theme(axis.text.x = element_text(angle = 90, vjust = 0.5)) +
     #ggtitle('Preference for seats in seat group with two others') +
     scale_x_discrete(drop = FALSE) +
-    annotate('text', label = paste0('n = ', nrow(filteredData)), x = 1, y = 0.9, size = 8)
+    annotate('text', label = paste0('n = ', nrow(filteredData)), x = 2, y = 0.9, size = 8)
 
 ## ---- seating-data-plot- ----
