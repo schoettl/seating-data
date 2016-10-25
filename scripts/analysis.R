@@ -3,6 +3,7 @@
 library(ggplot2)
 library(plyr)
 library(dplyr)
+library(lubridate)
 library(xtable)
 library(knitr)
 library(stringr)

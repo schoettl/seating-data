@@ -46,10 +46,16 @@ personData = mutate(personData,
 logEventData = mutate(logEventData,
     PERSON = ifelse(PERSON == 0, NA, PERSON),
     EXTRA_STRING = ifelse(EXTRA_STRING == '', NA, as.character(EXTRA_STRING)),
-    TIME = as.character(TIME)) # from factor
+    TIME = as.character(TIME), # from factor
+    LTIME = hms(TIME))
 
 # Add TIME column to surveyData
 surveyData = addTimeColumn(surveyData, logEventData)
+
+surveyData = mutate(surveyData,
+    LDATE = ymd(DATE),
+    LTIME = hms(TIME),
+    LDATETIME = ymd_hms(paste(DATE, TIME)))
 
 # Fix order of log events
 # (Above operations cannot guarantee to keep the order)
