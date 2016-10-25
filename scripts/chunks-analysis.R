@@ -156,7 +156,7 @@ filteredData = nameLastColumnAndConvertToFactor(filteredData, 'theOtherPersonDir
 
 ggp = ggplot(filteredData, aes(positionRelative))
 makeBarsWithRelativeFrequency(ggp) +
-    annotate('text', label = paste0('n = ', nrow(filteredData)), x = 2, y = 0.9, size = 8)
+    annotate('text', label = paste0('n = ', nrow(filteredData)), x = 2, y = 0.9, size = 8) +
     #ggtitle('Preference for position relative to one other person depending on their position') +
     facet_grid(theOtherPersonDirection ~ theOtherPersonSide)
 
