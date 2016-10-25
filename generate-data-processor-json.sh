@@ -12,7 +12,7 @@ readonly PROGDIR=$(dirname "$(readlink -m "$0")")
 
 OUTPUT_FILE_JSON='
   , {
-    "type" : "org.vadere.simulator.models.seating.LogEventOutputFile",
+    "type" : "org.vadere.simulator.models.seating.dataprocessing.LogEventOutputFile",
     "filename" : "LOG_EVENT<number>.csv",
     "processors" : [ <processor_id> ]
   }
@@ -20,7 +20,7 @@ OUTPUT_FILE_JSON='
 
 PROCESSOR_JSON='
   , {
-    "type" : "org.vadere.simulator.models.seating.LogEventProcessor",
+    "type" : "org.vadere.simulator.models.seating.dataprocessing.LogEventProcessor",
     "id" : <processor_id>,
     "attributesType" : "org.vadere.state.attributes.processor.AttributesLogEventProcessor",
     "attributes" : {
