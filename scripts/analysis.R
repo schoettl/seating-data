@@ -210,11 +210,12 @@ formatPValue = function(pValue) {
     ifelse(pValue < 0.001, "< 0.001", paste0("=", round(pValue, 3)))
 }
 
-makeBarsWithRelativeFrequency = function(ggp) {
+makeBarsWithRelativeFrequency = function(ggp, xAxisTitle) {
     ggp +
         geom_bar(aes(y = ..count.. / sum(..count..)), width = 0.1) +
         scale_y_continuous(labels = scales::percent, limits = c(0,1)) +
         ylab('relative frequency') +
+        xlab(xAxisTitle) +
         geom_text(stat = 'count', aes(label = ..count.., y = ..count.. / sum(..count..)), vjust = -0.5, size = 8)
 }
 
